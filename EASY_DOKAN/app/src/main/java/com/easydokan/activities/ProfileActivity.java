@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.easydokan.R;
 import com.easydokan.databinding.ActivityProfileBinding;
 import com.easydokan.models.UserModel;
 import com.google.firebase.auth.FirebaseAuth;

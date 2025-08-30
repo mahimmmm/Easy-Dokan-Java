@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.RadioGroup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import com.easydokan.R;
 import com.easydokan.databinding.ActivitySettingsBinding;
 import com.easydokan.utils.LanguageManager;
 import com.easydokan.utils.SharedPrefManager;
