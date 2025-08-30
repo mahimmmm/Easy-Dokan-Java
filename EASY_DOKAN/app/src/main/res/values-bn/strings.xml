@@ -1,0 +1,83 @@
+<resources>
+    <string name="app_name">ইজি দোকান</string>
+
+    <!-- Login/Register -->
+    <string name="email_phone_hint">ইমেইল / ফোন</string>
+    <string name="password_hint">পাসওয়ার্ড</string>
+    <string name="confirm_password_hint">পাসওয়ার্ড নিশ্চিত করুন</string>
+    <string name="login_button">লগইন</string>
+    <string name="register_button">নিবন্ধন</string>
+    <string name="forgot_password">পাসওয়ার্ড ভুলে গেছেন?</string>
+    <string name="dont_have_account">অ্যাকাউন্ট নেই? <b>নিবন্ধন করুন</b></string>
+    <string name="already_have_account">ইতিমধ্যে একটি অ্যাকাউন্ট আছে? <b>লগইন করুন</b></string>
+    <string name="name_hint">পুরো নাম</string>
+    <string name="phone_hint">ফোন নম্বর</string>
+    <string name="role_shop_owner">দোকানের মালিক</string>
+    <string name="role_staff">কর্মচারী</string>
+
+    <!-- Language -->
+    <string name="language_english">English</string>
+    <string name="language_bangla">বাংলা</string>
+    <string name="language_toggle_en">EN</string>
+    <string name="language_toggle_bn">BN</string>
+
+    <!-- Common -->
+    <string name="dashboard">ড্যাশবোর্ড</string>
+    <string name="customers">গ্রাহক</string>
+    <string name="products">পণ্য</string>
+    <string name="sales">বিক্রয়</string>
+    <string name="expenses">খরচ</string>
+    <string name="reports">রিপোর্ট</string>
+    <string name="settings">সেটিংস</string>
+    <string name="profile">প্রোফাইল</string>
+    <string name="logout">লগ আউট</string>
+
+    <!-- Dashboard Cards -->
+    <string name="todays_sales">আজকের বিক্রয়</string>
+    <string name="total_customers">মোট গ্রাহক</string>
+    <string name="total_products">মোট পণ্য</string>
+    <string name="expense_summary">খরচের সারাংশ</string>
+    <string name="address_hint">ঠিকানা</string>
+
+    <!-- Actions -->
+    <string name="action_edit">সম্পাদনা</string>
+    <string name="action_delete">মুছে ফেলুন</string>
+
+    <!-- Product -->
+    <string name="product_name_hint">পণ্যের নাম</string>
+    <string name="category_hint">ক্যাটাগরি</string>
+    <string name="price_hint">মূল্য</string>
+    <string name="quantity_hint">পরিমাণ</string>
+    <string name="supplier_hint">সরবরাহকারী</string>
+    <string name="select_image_button">ছবি নির্বাচন করুন</string>
+
+    <!-- Sales -->
+    <string name="new_sale_title">নতুন বিক্রয়</string>
+    <string name="select_customer_hint">গ্রাহক নির্বাচন করুন</string>
+    <string name="select_products_button">পণ্য যোগ / নির্বাচন করুন</string>
+    <string name="cart_title">নির্বাচিত পণ্য</string>
+    <string name="total_amount_label">সর্বমোট মূল্য:</string>
+    <string name="payment_method_label">মূল্য পরিশোধের মাধ্যম:</string>
+    <string name="payment_cash">নগদ</string>
+    <string name="payment_card">কার্ড</string>
+    <string name="payment_mobile">মোবাইল ব্যাংকিং</string>
+    <string name="save_sale_button">বিক্রয় সংরক্ষণ করুন</string>
+
+    <!-- Expense -->
+    <string name="expense_title_hint">খরচের শিরোনাম (যেমন, ভাড়া)</string>
+    <string name="amount_hint">টাকার পরিমাণ</string>
+    <string name="expense_category_hint">ক্যাটাগরি (যেমন, ইউটিলিটিস)</string>
+
+    <!-- Reports -->
+    <string name="filter_daily">দৈনিক</string>
+    <string name="filter_weekly">সাপ্তাহিক</string>
+    <string name="filter_monthly">মাসিক</string>
+    <string name="total_sales_label">মোট বিক্রয়</string>
+    <string name="total_expenses_label">মোট খরচ</string>
+    <string name="total_profit_label">মোট লাভ</string>
+
+    <!-- Settings -->
+    <string name="language_selection_title">ভাষা নির্বাচন করুন</string>
+    <string name="dark_mode_title">ডার্ক মোড</string>
+
+</resources>
