@@ -3,6 +3,7 @@ package com.easydokan.activities;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import com.easydokan.R;
 import com.easydokan.databinding.ActivityReportBinding;
 import com.easydokan.models.ExpenseModel;
 import com.easydokan.models.SaleModel;
