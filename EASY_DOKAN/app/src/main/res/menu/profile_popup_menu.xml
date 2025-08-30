@@ -4,6 +4,12 @@
         android:id="@+id/action_view_profile"
         android:title="@string/profile" />
     <item
+        android:id="@+id/action_reports"
+        android:title="@string/reports" />
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/settings" />
+    <item
         android:id="@+id/action_logout"
         android:title="@string/logout" />
 </menu>

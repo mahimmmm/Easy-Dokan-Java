@@ -49,6 +49,12 @@ public class DashboardActivity extends AppCompatActivity {
             if (itemId == R.id.action_view_profile) {
                 startActivity(new Intent(this, ProfileActivity.class));
                 return true;
+            } else if (itemId == R.id.action_reports) {
+                startActivity(new Intent(this, ReportActivity.class));
+                return true;
+            } else if (itemId == R.id.action_settings) {
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
             } else if (itemId == R.id.action_logout) {
                 logoutUser();
                 return true;
