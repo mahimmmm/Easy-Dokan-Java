@@ -2,6 +2,7 @@ package com.easydokan.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -34,14 +35,14 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_profile) {
-            showProfileMenu(findViewById(R.id.action_profile));
+            showProfileMenu(binding.toolbar);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void showProfileMenu(View anchor) {
-        PopupMenu popup = new PopupMenu(this, anchor);
+        PopupMenu popup = new PopupMenu(this, anchor, Gravity.END);
         popup.getMenuInflater().inflate(R.menu.profile_popup_menu, popup.getMenu());
         popup.setOnMenuItemClickListener(menuItem -> {
             int itemId = menuItem.getItemId();
