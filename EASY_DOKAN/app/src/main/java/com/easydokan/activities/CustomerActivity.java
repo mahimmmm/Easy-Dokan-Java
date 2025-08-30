@@ -82,7 +82,7 @@ public class CustomerActivity extends AppCompatActivity {
                         .setMessage("Are you sure you want to delete this customer?")
                         .setPositiveButton("Delete", (dialog, which) -> {
                             documentSnapshot.getReference().delete();
-                            Toast.makeText(CustomerActivity.this, "Customer deleted", Toast.length_SHORT).show();
+                            Toast.makeText(CustomerActivity.this, "Customer deleted", Toast.LENGTH_SHORT).show();
                         })
                         .setNegativeButton("Cancel", null)
                         .show();
