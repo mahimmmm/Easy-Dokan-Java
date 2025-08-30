@@ -129,7 +129,7 @@ public class CustomerActivity extends AppCompatActivity {
             } else {
                 // Create
                 customerRef.add(customer);
-                Toast.makeText(this, "Customer added", Toast.length_SHORT).show();
+                Toast.makeText(this, "Customer added", Toast.LENGTH_SHORT).show();
             }
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
