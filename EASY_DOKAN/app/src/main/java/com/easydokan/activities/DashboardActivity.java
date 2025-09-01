@@ -90,12 +90,6 @@ public class DashboardActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_expense) {
                 startActivity(new Intent(this, ExpenseActivity.class));
                 return true;
-            } else if (itemId == R.id.nav_reports) {
-                startActivity(new Intent(this, ReportActivity.class));
-                return true;
-            } else if (itemId == R.id.nav_settings) {
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
             }
             return false;
         });
