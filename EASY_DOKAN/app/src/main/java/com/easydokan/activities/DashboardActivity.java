@@ -3,6 +3,7 @@ package com.easydokan.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -30,6 +31,12 @@ public class DashboardActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
 
         setupBottomNavigation();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
     }
 
     @Override
