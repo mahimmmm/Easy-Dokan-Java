@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.easydokan.R;
 import com.easydokan.databinding.ActivityDashboardBinding;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class DashboardActivity extends AppCompatActivity {
@@ -30,7 +29,15 @@ public class DashboardActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         setSupportActionBar(binding.toolbar);
 
-        setupBottomNavigation();
+        setupClickListeners();
+        // TODO: Load summary data from Firebase
+    }
+
+    private void setupClickListeners() {
+        binding.cardCustomers.setOnClickListener(v -> startActivity(new Intent(this, CustomerActivity.class)));
+        binding.cardProducts.setOnClickListener(v -> startActivity(new Intent(this, ProductActivity.class)));
+        binding.cardSales.setOnClickListener(v -> startActivity(new Intent(this, SalesActivity.class)));
+        binding.cardExpenses.setOnClickListener(v -> startActivity(new Intent(this, ExpenseActivity.class)));
     }
 
     @Override
@@ -77,35 +84,5 @@ public class DashboardActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
-    }
-
-    private void setupBottomNavigation() {
-        binding.bottomNavigation.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.nav_dashboard) {
-                // Already on dashboard, do nothing
-                return true;
-            } else if (itemId == R.id.nav_customer) {
-                startActivity(new Intent(this, CustomerActivity.class));
-                return true;
-            } else if (itemId == R.id.nav_products) {
-                startActivity(new Intent(this, ProductActivity.class));
-                return true;
-            } else if (itemId == R.id.nav_sales) {
-                startActivity(new Intent(this, SalesActivity.class));
-                return true;
-            } else if (itemId == R.id.nav_expense) {
-                startActivity(new Intent(this, ExpenseActivity.class));
-                return true;
-            }
-            return false;
-        });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Set the dashboard item as selected when returning to the activity
-        binding.bottomNavigation.setSelectedItemId(R.id.nav_dashboard);
     }
 }
