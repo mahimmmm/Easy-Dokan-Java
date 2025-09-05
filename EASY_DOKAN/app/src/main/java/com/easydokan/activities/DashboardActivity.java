@@ -3,7 +3,6 @@ package com.easydokan.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -27,10 +26,22 @@ public class DashboardActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
-        setSupportActionBar(binding.toolbar);
+
+        // We don't use setSupportActionBar anymore to have full control.
+        // The title is already set in the XML.
+
+        // New direct method to inflate menu and set listener
+        binding.toolbar.inflateMenu(R.menu.toolbar_menu);
+        binding.toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_profile) {
+                // We need a view to anchor the popup to. The toolbar itself is a stable anchor.
+                showProfileMenu(binding.toolbar);
+                return true;
+            }
+            return false;
+        });
 
         setupClickListeners();
-        // TODO: Load summary data from Firebase
     }
 
     private void setupClickListeners() {
@@ -40,22 +51,8 @@ public class DashboardActivity extends AppCompatActivity {
         binding.cardExpenses.setOnClickListener(v -> startActivity(new Intent(this, ExpenseActivity.class)));
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.action_profile) {
-            showProfileMenu(binding.toolbar);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     private void showProfileMenu(View anchor) {
+        // Use Gravity.END to align the popup to the right side of the toolbar.
         PopupMenu popup = new PopupMenu(this, anchor, Gravity.END);
         popup.getMenuInflater().inflate(R.menu.profile_popup_menu, popup.getMenu());
         popup.setOnMenuItemClickListener(menuItem -> {
