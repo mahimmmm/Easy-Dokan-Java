@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Easy Dokan</string>
+
+    <!-- Dashboard -->
+    <string name="customers">Customers</string>
+    <string name="products">Products</string>
+    <string name="sales">Sales</string>
+    <string name="expenses">Expenses</string>
+    <string name="reports">Reports</string>
+    <string name="settings">Settings</string>
+    <string name="summary_title">Summary</string>
+    <string name="todays_sales">Today\'s Sales</string>
+    <string name="total_customers">Total Customers</string>
+    <string name="total_products">Total Products</string>
+    <string name="expense_summary">Expenses Summary</string>
+
+</resources>

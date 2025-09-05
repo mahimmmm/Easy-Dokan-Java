@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ইজি দোকান</string>
+
+    <!-- Dashboard -->
+    <string name="customers">গ্রাহক</string>
+    <string name="products">পণ্য</string>
+    <string name="sales">বিক্রয়</string>
+    <string name="expenses">খরচ</string>
+    <string name="reports">রিপোর্ট</string>
+    <string name="settings">সেটিংস</string>
+    <string name="summary_title">সারাংশ</string>
+    <string name="todays_sales">আজকের বিক্রয়</string>
+    <string name="total_customers">মোট গ্রাহক</string>
+    <string name="total_products">মোট পণ্য</string>
+    <string name="expense_summary">খরচের সারাংশ</string>
+
+</resources>
