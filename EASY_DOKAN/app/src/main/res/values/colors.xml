@@ -8,7 +8,7 @@
 
     <!-- Semi-Transparent Colors for Cards -->
     <color name="transparent_white">#B3FFFFFF</color> <!-- 70% alpha white -->
-    <color name="transparent_light_blue">#B35D9CEC</color> <!-- 70% alpha light blue -->
+    <color name="transparent_light_blue">#CC5D9CEC</color> <!-- 80% alpha light blue -->
     <color name="transparent_pink">#B3FF80AB</color> <!-- 70% alpha pink -->
 
 </resources>
