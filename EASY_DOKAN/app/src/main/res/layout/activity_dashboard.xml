@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:title="@string/app_name"
-            tools:menu="@menu/toolbar_menu" />
+            tools:menu="@menu/dashboard_toolbar_menu" /> <!-- For preview -->
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,91 +31,30 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Navigation Grid -->
-            <GridLayout
+            <!-- Navigation List -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/nav_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:alignmentMode="alignMargins"
-                android:columnOrderPreserved="false">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_customers"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardElevation="4dp"
-                    android:clickable="true"
-                    android:focusable="true">
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center">
-                        <ImageView android:layout_width="64dp" android:layout_height="64dp" android:src="@drawable/ic_customer" app:tint="?attr/colorPrimary"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/customers" android:layout_marginTop="8dp" android:textStyle="bold"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_products"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardElevation="4dp"
-                    android:clickable="true"
-                    android:focusable="true">
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center">
-                        <ImageView android:layout_width="64dp" android:layout_height="64dp" android:src="@drawable/ic_products" app:tint="?attr/colorPrimary"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/products" android:layout_marginTop="8dp" android:textStyle="bold"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_sales"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardElevation="4dp"
-                    android:clickable="true"
-                    android:focusable="true">
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center">
-                        <ImageView android:layout_width="64dp" android:layout_height="64dp" android:src="@drawable/ic_sales" app:tint="?attr/colorPrimary"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/sales" android:layout_marginTop="8dp" android:textStyle="bold"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_expenses"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardElevation="4dp"
-                    android:clickable="true"
-                    android:focusable="true">
-                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp" android:gravity="center">
-                        <ImageView android:layout_width="64dp" android:layout_height="64dp" android:src="@drawable/ic_expense" app:tint="?attr/colorPrimary"/>
-                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/expenses" android:layout_marginTop="8dp" android:textStyle="bold"/>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-            </GridLayout>
+                tools:listitem="@layout/dashboard_nav_item"
+                tools:itemCount="5"/>
 
             <!-- Summary Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Summary"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:text="@string/summary_title"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
                 android:layout_marginTop="24dp"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginBottom="8dp"/>
 
             <!-- Summary Cards -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
-                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
+                android:layout_marginVertical="4dp"
+                app:cardBackgroundColor="@color/transparent_light_blue">
+                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/todays_sales" android:textSize="16sp"/>
                     <TextView android:id="@+id/sales_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0.00" android:textSize="16sp" android:textStyle="bold"/>
                 </LinearLayout>
@@ -124,15 +63,37 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp">
-                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
+                android:layout_marginVertical="4dp"
+                app:cardBackgroundColor="@color/transparent_pink">
+                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical">
                     <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/total_customers" android:textSize="16sp"/>
                     <TextView android:id="@+id/customers_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="16sp" android:textStyle="bold"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                app:cardBackgroundColor="@color/transparent_light_blue">
+                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/total_products" android:textSize="16sp"/>
+                    <TextView android:id="@+id/products_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="16sp" android:textStyle="bold"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                app:cardBackgroundColor="@color/transparent_pink">
+                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical">
+                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/expense_summary" android:textSize="16sp"/>
+                    <TextView android:id="@+id/expense_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0.00" android:textSize="16sp" android:textStyle="bold"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
     </ScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

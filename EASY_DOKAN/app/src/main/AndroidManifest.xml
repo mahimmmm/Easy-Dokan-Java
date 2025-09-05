@@ -3,10 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.easydokan">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
-        android:name=".EasyDokanApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -17,29 +14,22 @@
         android:theme="@style/Theme.EASYDOKAN"
         tools:targetApi="31">
 
-        <!-- Splash Activity -->
         <activity
-            android:name=".activities.SplashActivity"
-            android:exported="true"
-            android:theme="@style/Theme.EASYDOKAN.NoActionBar">
+            android:name=".activities.DashboardActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Other Activities -->
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.DashboardActivity" />
+        <!-- Placeholder Activities -->
         <activity android:name=".activities.CustomerActivity" />
         <activity android:name=".activities.ProductActivity" />
         <activity android:name=".activities.SalesActivity" />
         <activity android:name=".activities.ExpenseActivity" />
         <activity android:name=".activities.ReportActivity" />
         <activity android:name=".activities.SettingsActivity" />
-        <activity android:name=".activities.ProfileActivity" />
-        <activity android:name=".activities.NewSaleActivity" />
 
     </application>
 
