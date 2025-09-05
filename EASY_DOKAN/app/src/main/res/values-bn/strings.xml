@@ -14,4 +14,27 @@
     <string name="total_products">মোট পণ্য</string>
     <string name="expense_summary">খরচের সারাংশ</string>
 
+    <!-- Splash -->
+    <string name="developer_name">ডেভেলপার: ASLAM</string>
+    <string name="version_number">v1.0.0</string>
+    <string name="bilingual_app_name">EASY DOKAN | ইজি দোকান</string>
+
+    <!-- Login -->
+    <string name="login_title">স্বাগতম!</string>
+    <string name="email_phone_hint">ইমেইল / ফোন</string>
+    <string name="password_hint">পাসওয়ার্ড</string>
+    <string name="forgot_password">পাসওয়ার্ড ভুলে গেছেন?</string>
+    <string name="login_button">লগইন</string>
+    <string name="remember_me">আমাকে মনে রাখুন</string>
+    <string name="powered_by">Powered by EASY DOKAN</string>
+
+    <!-- Register -->
+    <string name="register_title">অ্যাকাউন্ট তৈরি করুন</string>
+    <string name="full_name_hint">পুরো নাম</string>
+    <string name="confirm_password_hint">পাসওয়ার্ড নিশ্চিত করুন</string>
+    <string name="register_button">নিবন্ধন</string>
+    <string name="back_to_login_button">লগইনে ফিরে যান</string>
+    <string name="role_shop_owner">দোকানের মালিক</string>
+    <string name="role_staff">কর্মচারী</string>
+
 </resources>

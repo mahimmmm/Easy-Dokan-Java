@@ -14,4 +14,27 @@
     <string name="total_products">Total Products</string>
     <string name="expense_summary">Expenses Summary</string>
 
+    <!-- Splash -->
+    <string name="developer_name">Developer: ASLAM</string>
+    <string name="version_number">v1.0.0</string>
+    <string name="bilingual_app_name">EASY DOKAN | ইজি দোকান</string>
+
+    <!-- Login -->
+    <string name="login_title">Welcome Back!</string>
+    <string name="email_phone_hint">Email / Phone</string>
+    <string name="password_hint">Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="login_button">Login</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="powered_by">Powered by EASY DOKAN</string>
+
+    <!-- Register -->
+    <string name="register_title">Create an Account</string>
+    <string name="full_name_hint">Full Name</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="register_button">Register</string>
+    <string name="back_to_login_button">Back to Login</string>
+    <string name="role_shop_owner">Shop Owner</string>
+    <string name="role_staff">Staff</string>
+
 </resources>
