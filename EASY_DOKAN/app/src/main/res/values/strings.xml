@@ -31,6 +31,7 @@
     <!-- Register -->
     <string name="register_title">Create an Account</string>
     <string name="full_name_hint">Full Name</string>
+    <string name="phone_hint">Phone Number</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="register_button">Register</string>
     <string name="back_to_login_button">Back to Login</string>

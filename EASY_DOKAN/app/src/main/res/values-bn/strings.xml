@@ -31,6 +31,7 @@
     <!-- Register -->
     <string name="register_title">অ্যাকাউন্ট তৈরি করুন</string>
     <string name="full_name_hint">পুরো নাম</string>
+    <string name="phone_hint">ফোন নম্বর</string>
     <string name="confirm_password_hint">পাসওয়ার্ড নিশ্চিত করুন</string>
     <string name="register_button">নিবন্ধন</string>
     <string name="back_to_login_button">লগইনে ফিরে যান</string>

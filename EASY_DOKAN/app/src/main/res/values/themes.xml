@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme. -->
-    <style name="Theme.EASYDOKAN.Base" parent="Theme.Material3.DayNight">
+    <!-- Base application theme. Use NoActionBar as the parent as we use MaterialToolbar everywhere. -->
+    <style name="Theme.EASYDOKAN" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/light_blue_primary</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -14,16 +14,8 @@
         <item name="android:statusBarColor">?attr/colorPrimary</item>
     </style>
 
-    <style name="Theme.EASYDOKAN" parent="Theme.EASYDOKAN.Base">
-        <!-- Default theme for most activities -->
-    </style>
-
-    <style name="Theme.EASYDOKAN.NoActionBar" parent="Theme.EASYDOKAN.Base">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="Theme.EASYDOKAN.Transparent" parent="Theme.EASYDOKAN.NoActionBar">
+    <!-- Special theme for the transparent splash screen -->
+    <style name="Theme.EASYDOKAN.Transparent" parent="Theme.EASYDOKAN">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
