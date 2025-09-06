@@ -9,6 +9,7 @@ public class SharedPrefManager {
     private static final String KEY_LANGUAGE = "key_language";
     private static final String KEY_REMEMBER_ME = "key_remember_me";
     private static final String KEY_SAVED_EMAIL = "key_saved_email";
+    private static final String KEY_THEME = "key_theme";
 
     private static SharedPrefManager instance;
     private static SharedPreferences sharedPreferences;
@@ -59,5 +60,16 @@ public class SharedPrefManager {
 
     public String getSavedEmail() {
         return sharedPreferences.getString(KEY_SAVED_EMAIL, "");
+    }
+
+    // --- Theme ---
+    public void saveTheme(String theme) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_THEME, theme);
+        editor.apply();
+    }
+
+    public String getTheme() {
+        return sharedPreferences.getString(KEY_THEME, "light"); // Default to light
     }
 }

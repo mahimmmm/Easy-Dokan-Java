@@ -38,4 +38,27 @@
     <string name="role_shop_owner">Shop Owner</string>
     <string name="role_staff">Staff</string>
 
+    <!-- Settings Page -->
+    <string name="settings_section_profile">User Profile</string>
+    <string name="settings_section_lang_theme">Language &amp; Theme</string>
+    <string name="settings_section_nav">Navigation Shortcuts</string>
+    <string name="settings_section_app">App Settings</string>
+    <string name="settings_section_support">Support &amp; Info</string>
+
+    <string name="settings_item_edit_profile">Edit Profile</string>
+    <string name="settings_item_language">Language</string>
+    <string name="settings_item_theme">Theme</string>
+    <string name="settings_item_change_password">Change Password</string>
+    <string name="settings_item_notifications">Notifications</string>
+    <string name="settings_item_backup">Backup Data</string>
+    <string name="settings_item_export">Export Data</string>
+    <string name="settings_item_support">Contact Support</string>
+    <string name="settings_item_dev_info">Developer Info</string>
+    <string name="settings_item_version">App Version</string>
+    <string name="settings_item_logout">Logout</string>
+
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_transparent">Transparent</string>
+
 </resources>
