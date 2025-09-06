@@ -41,7 +41,6 @@
     <style name="SettingsItemIcon">
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
-        <item name="app:tint">?attr/colorPrimary</item>
     </style>
 
     <style name="SettingsItemText" parent="Widget.AppCompat.TextView">

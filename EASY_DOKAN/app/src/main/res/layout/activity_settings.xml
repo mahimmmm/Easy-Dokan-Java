@@ -41,7 +41,7 @@
                         <TextView android:id="@+id/profile_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="User Name" android:textStyle="bold" android:textSize="18sp"/>
                         <TextView android:id="@+id/profile_email" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="user@example.com"/>
                     </LinearLayout>
-                    <ImageButton android:id="@+id/edit_profile_button" style="@style/SettingsEditButton" android:src="@drawable/ic_edit"/>
+                    <ImageButton android:id="@+id/edit_profile_button" style="@style/SettingsEditButton" android:src="@drawable/ic_edit" app:tint="?attr/colorPrimary"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -50,12 +50,12 @@
             <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">
                 <LinearLayout style="@style/SettingsCardContent" android:orientation="vertical">
                     <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_language">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_translate"/>
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_translate" app:tint="?attr/colorPrimary"/>
                         <TextView style="@style/SettingsItemText" android:text="@string/settings_item_language"/>
                     </LinearLayout>
                     <View style="@style/SettingsDivider"/>
                     <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_theme">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_theme"/>
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_theme" app:tint="?attr/colorPrimary"/>
                         <TextView style="@style/SettingsItemText" android:text="@string/settings_item_theme"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -66,23 +66,23 @@
             <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">
                 <LinearLayout style="@style/SettingsCardContent" android:orientation="vertical">
                     <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_change_password">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_lock_settings"/>
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_lock_settings" app:tint="?attr/colorPrimary"/>
                         <TextView style="@style/SettingsItemText" android:text="@string/settings_item_change_password"/>
                     </LinearLayout>
                     <View style="@style/SettingsDivider"/>
                     <LinearLayout style="@style/SettingsListItem">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_notifications"/>
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_notifications" app:tint="?attr/colorPrimary"/>
                         <TextView style="@style/SettingsItemText" android:text="@string/settings_item_notifications"/>
                         <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switch_notifications" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
                     </LinearLayout>
                     <View style="@style/SettingsDivider"/>
                     <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_backup">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_backup"/>
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_backup" app:tint="?attr/colorPrimary"/>
                         <TextView style="@style/SettingsItemText" android:text="@string/settings_item_backup"/>
                     </LinearLayout>
                     <View style="@style/SettingsDivider"/>
                     <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_export">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_export"/>
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_export" app:tint="?attr/colorPrimary"/>
                         <TextView style="@style/SettingsItemText" android:text="@string/settings_item_export"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -93,32 +93,32 @@
             <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">
                 <LinearLayout style="@style/SettingsCardContent" android:orientation="vertical">
                      <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_dashboard">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_dashboard"/>
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_dashboard" app:tint="?attr/colorPrimary"/>
                         <TextView style="@style/SettingsItemText" android:text="@string/dashboard"/>
                     </LinearLayout>
                      <View style="@style/SettingsDivider"/>
                      <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_customers">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_customer"/>
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_customer" app:tint="?attr/colorPrimary"/>
                         <TextView style="@style/SettingsItemText" android:text="@string/customers"/>
                     </LinearLayout>
                     <View style="@style/SettingsDivider"/>
                     <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_products">
-                       <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_products"/>
+                       <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_products" app:tint="?attr/colorPrimary"/>
                        <TextView style="@style/SettingsItemText" android:text="@string/products"/>
                    </LinearLayout>
                    <View style="@style/SettingsDivider"/>
                    <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_sales">
-                      <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_sales"/>
+                      <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_sales" app:tint="?attr/colorPrimary"/>
                       <TextView style="@style/SettingsItemText" android:text="@string/sales"/>
                   </LinearLayout>
                   <View style="@style/SettingsDivider"/>
                   <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_expenses">
-                     <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_expense"/>
+                     <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_expense" app:tint="?attr/colorPrimary"/>
                      <TextView style="@style/SettingsItemText" android:text="@string/expenses"/>
                  </LinearLayout>
                  <View style="@style/SettingsDivider"/>
                  <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_reports">
-                    <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_reports"/>
+                    <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_reports" app:tint="?attr/colorPrimary"/>
                     <TextView style="@style/SettingsItemText" android:text="@string/reports"/>
                 </LinearLayout>
                 </LinearLayout>
@@ -129,12 +129,12 @@
             <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">
                 <LinearLayout style="@style/SettingsCardContent" android:orientation="vertical">
                      <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_support">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_support"/>
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_support" app:tint="?attr/colorPrimary"/>
                         <TextView style="@style/SettingsItemText" android:text="@string/settings_item_support"/>
                     </LinearLayout>
                      <View style="@style/SettingsDivider"/>
                      <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_dev_info">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_info"/>
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_info" app:tint="?attr/colorPrimary"/>
                         <TextView style="@style/SettingsItemText" android:text="@string/settings_item_dev_info"/>
                     </LinearLayout>
                 </LinearLayout>
