@@ -19,7 +19,7 @@
         <item name="android:layout_marginVertical">4dp</item>
     </style>
 
-    <style name="SettingsCardContent" parent="Widget.AppCompat.LinearLayout">
+    <style name="SettingsCardContent">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
@@ -27,7 +27,7 @@
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="SettingsListItem" parent="Widget.AppCompat.LinearLayout">
+    <style name="SettingsListItem">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
@@ -38,7 +38,7 @@
         <item name="android:focusable">true</item>
     </style>
 
-    <style name="SettingsItemIcon" parent="Widget.AppCompat.ImageView">
+    <style name="SettingsItemIcon">
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
         <item name="app:tint">?attr/colorPrimary</item>
