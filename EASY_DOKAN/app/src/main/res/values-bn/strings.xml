@@ -61,4 +61,14 @@
     <string name="theme_dark">ডার্ক</string>
     <string name="theme_transparent">স্বচ্ছ</string>
 
+    <!-- Customer Page -->
+    <string name="opening_balance">প্রাথমিক ব্যালেন্স</string>
+    <string name="notes">নোট</string>
+    <string name="current_due">বর্তমান বাকি</string>
+    <string name="cleared">পরিশোধিত</string>
+    <string name="add_new_customer">নতুন কাস্টমার যোগ করুন</string>
+    <string name="edit_customer">কাস্টমার সম্পাদনা করুন</string>
+    <string name="search_customers_hint">নাম বা ফোন দিয়ে খুঁজুন...</string>
+    <string name="address_hint">ঠিকানা</string>
+
 </resources>
