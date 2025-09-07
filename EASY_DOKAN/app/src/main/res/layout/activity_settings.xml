@@ -88,42 +88,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Navigation Shortcuts Section -->
-            <TextView style="@style/SettingsSectionHeader" android:text="@string/settings_section_nav"/>
-            <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">
-                <LinearLayout style="@style/SettingsCardContent" android:orientation="vertical">
-                     <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_dashboard">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_dashboard" app:tint="?attr/colorPrimary"/>
-                        <TextView style="@style/SettingsItemText" android:text="@string/dashboard"/>
-                    </LinearLayout>
-                     <View style="@style/SettingsDivider"/>
-                     <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_customers">
-                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_customer" app:tint="?attr/colorPrimary"/>
-                        <TextView style="@style/SettingsItemText" android:text="@string/customers"/>
-                    </LinearLayout>
-                    <View style="@style/SettingsDivider"/>
-                    <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_products">
-                       <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_products" app:tint="?attr/colorPrimary"/>
-                       <TextView style="@style/SettingsItemText" android:text="@string/products"/>
-                   </LinearLayout>
-                   <View style="@style/SettingsDivider"/>
-                   <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_sales">
-                      <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_sales" app:tint="?attr/colorPrimary"/>
-                      <TextView style="@style/SettingsItemText" android:text="@string/sales"/>
-                  </LinearLayout>
-                  <View style="@style/SettingsDivider"/>
-                  <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_expenses">
-                     <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_expense" app:tint="?attr/colorPrimary"/>
-                     <TextView style="@style/SettingsItemText" android:text="@string/expenses"/>
-                 </LinearLayout>
-                 <View style="@style/SettingsDivider"/>
-                 <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_nav_reports">
-                    <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_reports" app:tint="?attr/colorPrimary"/>
-                    <TextView style="@style/SettingsItemText" android:text="@string/reports"/>
-                </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
             <!-- Support & Info Section -->
             <TextView style="@style/SettingsSectionHeader" android:text="@string/settings_section_support"/>
             <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">

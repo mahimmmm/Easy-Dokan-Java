@@ -52,20 +52,6 @@ public class SettingsActivity extends AppCompatActivity {
         binding.getRoot().findViewById(R.id.item_change_password).setOnClickListener(v -> showToast("Change Password coming soon!"));
         binding.getRoot().findViewById(R.id.item_backup).setOnClickListener(v -> showToast("Backup Data coming soon!"));
         binding.getRoot().findViewById(R.id.item_export).setOnClickListener(v -> showToast("Export Data coming soon!"));
-
-        // Navigation shortcuts
-        binding.getRoot().findViewById(R.id.item_nav_dashboard).setOnClickListener(v ->
-            startActivity(new Intent(this, DashboardActivity.class)));
-        binding.getRoot().findViewById(R.id.item_nav_customers).setOnClickListener(v ->
-            startActivity(new Intent(this, CustomerActivity.class)));
-        binding.getRoot().findViewById(R.id.item_nav_products).setOnClickListener(v ->
-            startActivity(new Intent(this, ProductActivity.class)));
-        binding.getRoot().findViewById(R.id.item_nav_sales).setOnClickListener(v ->
-            startActivity(new Intent(this, SalesActivity.class)));
-        binding.getRoot().findViewById(R.id.item_nav_expenses).setOnClickListener(v ->
-            startActivity(new Intent(this, ExpenseActivity.class)));
-        binding.getRoot().findViewById(R.id.item_nav_reports).setOnClickListener(v ->
-            startActivity(new Intent(this, ReportActivity.class)));
     }
 
     private void showLanguageDialog() {
