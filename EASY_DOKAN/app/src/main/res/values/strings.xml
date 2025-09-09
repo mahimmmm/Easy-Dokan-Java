@@ -81,5 +81,8 @@
     <string name="description">Description</string>
     <string name="search_products_hint">Search by name or code...</string>
     <string name="no_products_available">No Products Available</string>
+    <string name="product_name_hint">Product Name</string>
+    <string name="category_hint">Category</string>
+    <string name="price_hint">Price</string>
 
 </resources>

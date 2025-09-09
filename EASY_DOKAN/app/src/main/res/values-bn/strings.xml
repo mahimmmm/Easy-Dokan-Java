@@ -81,5 +81,8 @@
     <string name="description">বিবরণ</string>
     <string name="search_products_hint">নাম বা কোড দিয়ে খুঁজুন...</string>
     <string name="no_products_available">কোনো পণ্য নেই</string>
+    <string name="product_name_hint">পণ্যের নাম</string>
+    <string name="category_hint">ক্যাটাগরি</string>
+    <string name="price_hint">মূল্য</string>
 
 </resources>
