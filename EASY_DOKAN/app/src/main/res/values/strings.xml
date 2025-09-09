@@ -71,4 +71,15 @@
     <string name="search_customers_hint">Search by name or phone...</string>
     <string name="address_hint">Address</string>
 
+    <!-- Product Page -->
+    <string name="stock_status">Stock Status</string>
+    <string name="in_stock">In Stock</string>
+    <string name="out_of_stock">Out of Stock</string>
+    <string name="add_new_product">Add New Product</string>
+    <string name="edit_product">Edit Product</string>
+    <string name="product_code">Product Code</string>
+    <string name="description">Description</string>
+    <string name="search_products_hint">Search by name or code...</string>
+    <string name="no_products_available">No Products Available</string>
+
 </resources>

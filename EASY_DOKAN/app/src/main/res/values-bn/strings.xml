@@ -71,4 +71,15 @@
     <string name="search_customers_hint">নাম বা ফোন দিয়ে খুঁজুন...</string>
     <string name="address_hint">ঠিকানা</string>
 
+    <!-- Product Page -->
+    <string name="stock_status">স্টক স্ট্যাটাস</string>
+    <string name="in_stock">স্টকে আছে</string>
+    <string name="out_of_stock">স্টক নেই</string>
+    <string name="add_new_product">নতুন পণ্য যোগ করুন</string>
+    <string name="edit_product">পণ্য সম্পাদনা করুন</string>
+    <string name="product_code">পণ্যের কোড</string>
+    <string name="description">বিবরণ</string>
+    <string name="search_products_hint">নাম বা কোড দিয়ে খুঁজুন...</string>
+    <string name="no_products_available">কোনো পণ্য নেই</string>
+
 </resources>
