@@ -3,6 +3,8 @@ package com.easydokan.models;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.ServerTimestamp;
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 public class ProductModel {
 
@@ -15,11 +17,14 @@ public class ProductModel {
     private long stock;
     private String description;
     private String imageUrl;
+    private List<String> searchKeywords;
     @ServerTimestamp
     private Date createdAt;
 
     // Required empty public constructor for Firestore
     public ProductModel() {
+        // Initialize lists to avoid NullPointerExceptions
+        this.searchKeywords = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -39,6 +44,8 @@ public class ProductModel {
     public void setDescription(String description) { this.description = description; }
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public List<String> getSearchKeywords() { return searchKeywords; }
+    public void setSearchKeywords(List<String> searchKeywords) { this.searchKeywords = searchKeywords; }
     public Date getCreatedAt() { return createdAt; }
     public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
 }

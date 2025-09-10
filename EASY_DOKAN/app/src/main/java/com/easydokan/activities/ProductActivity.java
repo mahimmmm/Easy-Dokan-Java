@@ -31,6 +31,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class ProductActivity extends AppCompatActivity {
@@ -203,12 +207,42 @@ public class ProductActivity extends AppCompatActivity {
         product.setStock(stock);
         product.setDescription(desc);
         product.setImageUrl(imageUrl);
+        product.setSearchKeywords(generateSearchKeywords(name, code));
 
         if (existingProduct != null) {
             productRef.document(existingProduct.getId()).set(product).addOnCompleteListener(task -> progressDialog.dismiss());
         } else {
             productRef.add(product).addOnCompleteListener(task -> progressDialog.dismiss());
         }
+    }
+
+    private List<String> generateSearchKeywords(String productName, String productCode) {
+        Set<String> keywords = new HashSet<>();
+
+        // Process Product Name
+        if (productName != null && !productName.isEmpty()) {
+            String lowerCaseName = productName.toLowerCase().trim();
+            String[] nameParts = lowerCaseName.split("\\s+");
+            for (String part : nameParts) {
+                if (!part.isEmpty()) {
+                    for (int i = 1; i <= part.length(); i++) {
+                        keywords.add(part.substring(0, i));
+                    }
+                }
+            }
+        }
+
+        // Process Product Code
+        if (productCode != null && !productCode.isEmpty()) {
+            String lowerCaseCode = productCode.toLowerCase().trim();
+            if (!lowerCaseCode.isEmpty()) {
+                for (int i = 1; i <= lowerCaseCode.length(); i++) {
+                    keywords.add(lowerCaseCode.substring(0, i));
+                }
+            }
+        }
+
+        return new ArrayList<>(keywords);
     }
 
     @Override
@@ -234,8 +268,16 @@ public class ProductActivity extends AppCompatActivity {
     }
 
     private void performSearch(String text) {
-        Query query = text.isEmpty() ? productRef.orderBy("name", Query.Direction.ASCENDING) :
-                productRef.orderBy("name").startAt(text).endAt(text + "\uf8ff");
+        String searchText = text.toLowerCase().trim();
+        Query query;
+        if (searchText.isEmpty()) {
+            query = productRef.orderBy("name", Query.Direction.ASCENDING);
+        } else {
+            // This query requires a composite index on (searchKeywords ASC, name ASC) in Firestore.
+            // The Firebase console will provide a link to create this index if it's missing.
+            query = productRef.whereArrayContains("searchKeywords", searchText)
+                             .orderBy("name", Query.Direction.ASCENDING);
+        }
         FirestoreRecyclerOptions<ProductModel> options = new FirestoreRecyclerOptions.Builder<ProductModel>()
                 .setQuery(query, ProductModel.class).build();
         adapter.updateOptions(options);
