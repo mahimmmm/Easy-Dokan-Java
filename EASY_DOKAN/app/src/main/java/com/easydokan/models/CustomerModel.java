@@ -10,6 +10,7 @@ public class CustomerModel {
     private String phone;
     private String address;
     private double openingBalance;
+    private double due;
     private String notes;
 
     // Required empty public constructor for Firestore
@@ -57,11 +58,24 @@ public class CustomerModel {
         this.openingBalance = openingBalance;
     }
 
+    public double getDue() {
+        return due;
+    }
+
+    public void setDue(double due) {
+        this.due = due;
+    }
+
     public String getNotes() {
         return notes;
     }
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

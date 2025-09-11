@@ -48,4 +48,9 @@ public class ProductModel {
     public void setSearchKeywords(List<String> searchKeywords) { this.searchKeywords = searchKeywords; }
     public Date getCreatedAt() { return createdAt; }
     public void setCreatedAt(Date createdAt) { this.createdAt = createdAt; }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
