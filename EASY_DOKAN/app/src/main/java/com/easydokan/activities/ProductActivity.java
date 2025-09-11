@@ -29,6 +29,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
@@ -265,6 +266,56 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_sync_old_products) {
+            syncOldProducts();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void syncOldProducts() {
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Syncing Products");
+        progressDialog.setMessage("Please wait, generating search keywords for old products...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        productRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                WriteBatch batch = db.batch();
+                int productsToUpdate = 0;
+                for (DocumentSnapshot document : task.getResult()) {
+                    ProductModel product = document.toObject(ProductModel.class);
+                    if (product != null && (product.getSearchKeywords() == null || product.getSearchKeywords().isEmpty())) {
+                        List<String> keywords = generateSearchKeywords(product.getName(), product.getCode());
+                        batch.update(document.getReference(), "searchKeywords", keywords);
+                        productsToUpdate++;
+                    }
+                }
+
+                if (productsToUpdate > 0) {
+                    final int finalProductsToUpdate = productsToUpdate;
+                    batch.commit().addOnCompleteListener(batchTask -> {
+                        progressDialog.dismiss();
+                        if (batchTask.isSuccessful()) {
+                            Toast.makeText(ProductActivity.this, "Successfully synced " + finalProductsToUpdate + " products.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(ProductActivity.this, "Sync failed. Please try again.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(ProductActivity.this, "All products are already up-to-date.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                progressDialog.dismiss();
+                Toast.makeText(ProductActivity.this, "Failed to fetch products for sync.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void performSearch(String text) {
