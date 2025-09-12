@@ -38,7 +38,6 @@ public class DashboardActivity extends AppCompatActivity {
         // User's new requested navigation list
         navItems.add(new DashboardNavItem("Customers", R.drawable.ic_customer, CustomerActivity.class));
         navItems.add(new DashboardNavItem("Products", R.drawable.ic_product, ProductActivity.class));
-        navItems.add(new DashboardNavItem("Sales", R.drawable.ic_sales, SalesActivity.class));
         navItems.add(new DashboardNavItem("Receive From DSR", R.drawable.ic_receive, ReceiveFromDsrActivity.class));
         navItems.add(new DashboardNavItem("Settings", R.drawable.ic_settings, SettingsActivity.class));
     }
