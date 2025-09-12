@@ -33,8 +33,7 @@
         <activity android:name=".activities.CustomerActivity" />
         <activity android:name=".activities.ProductActivity" />
         <activity android:name=".activities.SalesActivity" />
-        <activity android:name=".activities.ExpenseActivity" />
-        <activity android:name=".activities.ReportActivity" />
+       <activity android:name=".activities.ReceiveFromDsrActivity" />
         <activity android:name=".activities.SettingsActivity" />
 
     </application>
