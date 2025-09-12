@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "573188183077",
+    "project_id": "easy-dokan",
+    "storage_bucket": "easy-dokan.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573188183077:android:63376954bb449559621bcc",
+        "android_client_info": {
+          "package_name": "com.easydokan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAa9xdga8ul0KJog6oU6qamsFYhLcRaGmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
