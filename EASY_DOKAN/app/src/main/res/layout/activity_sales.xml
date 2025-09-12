@@ -1,19 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".activities.SalesActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sales Activity"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:fitsSystemWindows="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_sales"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Customer Section -->
+            <TextView style="@style/TextAppearance.Material3.TitleMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Customer" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="8dp">
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:hint="Select Customer">
+                    <AutoCompleteTextView android:id="@+id/customer_autocomplete" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.button.MaterialButton android:id="@+id/add_customer_button" style="@style/Widget.Material3.Button.IconButton" android:layout_width="wrap_content" android:layout_height="wrap_content" app:icon="@drawable/ic_add" android:layout_marginStart="8dp" />
+            </LinearLayout>
+            <TextView android:id="@+id/previous_due_textview" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="@android:color/holo_red_dark" android:layout_marginTop="4dp" tools:text="Previous Due: ৳ 1200" android:visibility="gone" tools:visibility="visible" />
+
+            <!-- Product Section -->
+            <TextView style="@style/TextAppearance.Material3.TitleMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Product" android:layout_marginTop="24dp" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="8dp">
+                <com.google.android.material.textfield.TextInputLayout style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:hint="Select Product">
+                    <AutoCompleteTextView android:id="@+id/product_autocomplete" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.button.MaterialButton android:id="@+id/add_product_button" style="@style/Widget.Material3.Button.IconButton" android:layout_width="wrap_content" android:layout_height="wrap_content" app:icon="@drawable/ic_add" android:layout_marginStart="8dp" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+                <com.google.android.material.textfield.TextInputLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:hint="Quantity" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/quantity_edit_text" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.button.MaterialButton android:id="@+id/add_to_bill_button" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Add to Bill" android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+            <!-- Bill Summary Section -->
+            <TextView style="@style/TextAppearance.Material3.TitleLarge" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Bill Summary" android:layout_marginTop="24dp" />
+            <androidx.recyclerview.widget.RecyclerView android:id="@+id/sales_bill_recyclerview" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" tools:listitem="@layout/sale_item_row" tools:itemCount="3" />
+
+            <!-- Totals Section -->
+            <com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" />
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Subtotal" android:layout_alignParentStart="true" />
+                <TextView android:id="@+id/subtotal_textview" android:layout_width="wrap_content" android:layout_height="wrap_content" tools:text="৳ 1200.00" android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Discount" android:layout_centerVertical="true" />
+                <com.google.android.material.textfield.TextInputLayout android:layout_width="120dp" android:layout_height="wrap_content" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" android:layout_alignParentEnd="true">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/discount_edit_text" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:hint="Amount" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                <TextView style="@style/TextAppearance.Material3.TitleMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total" android:layout_alignParentStart="true" />
+                <TextView android:id="@+id/total_textview" style="@style/TextAppearance.Material3.TitleMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" tools:text="৳ 1100.00" android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Paid Amount" android:layout_centerVertical="true" />
+                <com.google.android.material.textfield.TextInputLayout android:layout_width="120dp" android:layout_height="wrap_content" style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense" android:layout_alignParentEnd="true">
+                    <com.google.android.material.textfield.TextInputEditText android:id="@+id/paid_amount_edit_text" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" android:hint="Amount" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </RelativeLayout>
+            <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                <TextView style="@style/TextAppearance.Material3.TitleMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Due" android:textColor="@android:color/holo_red_dark" android:layout_alignParentStart="true" />
+                <TextView android:id="@+id/due_textview" style="@style/TextAppearance.Material3.TitleMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" tools:text="৳ 1100.00" android:textColor="@android:color/holo_red_dark" android:layout_alignParentEnd="true" />
+            </RelativeLayout>
+
+            <!-- Payment Method Section -->
+            <TextView style="@style/TextAppearance.Material3.TitleMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Payment Method" android:layout_marginTop="24dp" />
+            <RadioGroup android:id="@+id/payment_method_radiogroup" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+                <RadioButton android:id="@+id/radio_cash" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cash" android:checked="true" />
+                <RadioButton android:id="@+id/radio_mobile_banking" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mobile Banking" android:layout_marginStart="16dp"/>
+                <RadioButton android:id="@+id/radio_card" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Card" android:layout_marginStart="16dp"/>
+                <RadioButton android:id="@+id/radio_due" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Due" android:layout_marginStart="16dp"/>
+            </RadioGroup>
+
+            <!-- Action Buttons -->
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="32dp">
+                <com.google.android.material.button.MaterialButton android:id="@+id/cancel_button" style="@style/Widget.Material3.Button.OutlinedButton" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Cancel" android:textColor="@color/pink_accent" app:strokeColor="@color/pink_accent" android:layout_marginEnd="8dp" />
+                <com.google.android.material.button.MaterialButton android:id="@+id/save_sale_button" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Save Sale" android:backgroundTint="@color/light_blue_primary" android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

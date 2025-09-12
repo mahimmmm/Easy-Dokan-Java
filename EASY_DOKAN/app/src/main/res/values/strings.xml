@@ -38,4 +38,51 @@
     <string name="role_shop_owner">Shop Owner</string>
     <string name="role_staff">Staff</string>
 
+    <!-- Settings Page -->
+    <string name="settings_section_profile">User Profile</string>
+    <string name="settings_section_lang_theme">Language &amp; Theme</string>
+    <string name="settings_section_nav">Navigation Shortcuts</string>
+    <string name="settings_section_app">App Settings</string>
+    <string name="settings_section_support">Support &amp; Info</string>
+
+    <string name="settings_item_edit_profile">Edit Profile</string>
+    <string name="settings_item_language">Language</string>
+    <string name="settings_item_theme">Theme</string>
+    <string name="settings_item_change_password">Change Password</string>
+    <string name="settings_item_notifications">Notifications</string>
+    <string name="settings_item_backup">Backup Data</string>
+    <string name="settings_item_export">Export Data</string>
+    <string name="settings_item_support">Contact Support</string>
+    <string name="settings_item_dev_info">Developer Info</string>
+    <string name="settings_item_version">App Version</string>
+    <string name="settings_item_logout">Logout</string>
+
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_transparent">Transparent</string>
+
+    <!-- Customer Page -->
+    <string name="opening_balance">Opening Balance</string>
+    <string name="notes">Notes</string>
+    <string name="current_due">Current Due</string>
+    <string name="cleared">Cleared</string>
+    <string name="add_new_customer">Add New Customer</string>
+    <string name="edit_customer">Edit Customer</string>
+    <string name="search_customers_hint">Search by name or phone...</string>
+    <string name="address_hint">Address</string>
+
+    <!-- Product Page -->
+    <string name="stock_status">Stock Status</string>
+    <string name="in_stock">In Stock</string>
+    <string name="out_of_stock">Out of Stock</string>
+    <string name="add_new_product">Add New Product</string>
+    <string name="edit_product">Edit Product</string>
+    <string name="product_code">Product Code</string>
+    <string name="description">Description</string>
+    <string name="search_products_hint">Search by name or code...</string>
+    <string name="no_products_available">No Products Available</string>
+    <string name="product_name_hint">Product Name</string>
+    <string name="category_hint">Category</string>
+    <string name="price_hint">Price</string>
+
 </resources>

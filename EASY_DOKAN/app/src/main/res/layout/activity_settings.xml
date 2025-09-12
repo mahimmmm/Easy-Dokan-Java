@@ -1,19 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.SettingsActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Settings Activity"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/settings"
+            app:navigationIcon="@drawable/ic_arrow_back"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <!-- Profile Section -->
+            <TextView style="@style/SettingsSectionHeader" android:text="@string/settings_section_profile"/>
+            <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">
+                <LinearLayout style="@style/SettingsCardContent">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/ic_person_blue"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="16dp">
+                        <TextView android:id="@+id/profile_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="User Name" android:textStyle="bold" android:textSize="18sp"/>
+                        <TextView android:id="@+id/profile_email" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="user@example.com"/>
+                    </LinearLayout>
+                    <ImageButton android:id="@+id/edit_profile_button" style="@style/SettingsEditButton" android:src="@drawable/ic_edit" app:tint="?attr/colorPrimary"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Language & Theme Section -->
+            <TextView style="@style/SettingsSectionHeader" android:text="@string/settings_section_lang_theme"/>
+            <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">
+                <LinearLayout style="@style/SettingsCardContent" android:orientation="vertical">
+                    <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_language">
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_translate" app:tint="?attr/colorPrimary"/>
+                        <TextView style="@style/SettingsItemText" android:text="@string/settings_item_language"/>
+                    </LinearLayout>
+                    <View style="@style/SettingsDivider"/>
+                    <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_theme">
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_theme" app:tint="?attr/colorPrimary"/>
+                        <TextView style="@style/SettingsItemText" android:text="@string/settings_item_theme"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- App Settings Section -->
+            <TextView style="@style/SettingsSectionHeader" android:text="@string/settings_section_app"/>
+            <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">
+                <LinearLayout style="@style/SettingsCardContent" android:orientation="vertical">
+                    <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_change_password">
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_lock_settings" app:tint="?attr/colorPrimary"/>
+                        <TextView style="@style/SettingsItemText" android:text="@string/settings_item_change_password"/>
+                    </LinearLayout>
+                    <View style="@style/SettingsDivider"/>
+                    <LinearLayout style="@style/SettingsListItem">
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_notifications" app:tint="?attr/colorPrimary"/>
+                        <TextView style="@style/SettingsItemText" android:text="@string/settings_item_notifications"/>
+                        <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/switch_notifications" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <View style="@style/SettingsDivider"/>
+                    <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_backup">
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_backup" app:tint="?attr/colorPrimary"/>
+                        <TextView style="@style/SettingsItemText" android:text="@string/settings_item_backup"/>
+                    </LinearLayout>
+                    <View style="@style/SettingsDivider"/>
+                    <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_export">
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_export" app:tint="?attr/colorPrimary"/>
+                        <TextView style="@style/SettingsItemText" android:text="@string/settings_item_export"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Support & Info Section -->
+            <TextView style="@style/SettingsSectionHeader" android:text="@string/settings_section_support"/>
+            <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">
+                <LinearLayout style="@style/SettingsCardContent" android:orientation="vertical">
+                     <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_support">
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_support" app:tint="?attr/colorPrimary"/>
+                        <TextView style="@style/SettingsItemText" android:text="@string/settings_item_support"/>
+                    </LinearLayout>
+                     <View style="@style/SettingsDivider"/>
+                     <LinearLayout style="@style/SettingsListItem" android:id="@+id/item_dev_info">
+                        <ImageView style="@style/SettingsItemIcon" android:src="@drawable/ic_info" app:tint="?attr/colorPrimary"/>
+                        <TextView style="@style/SettingsItemText" android:text="@string/settings_item_dev_info"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/logout_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/settings_item_logout"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
