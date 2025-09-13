@@ -81,13 +81,7 @@ public class HomePageActivity extends AppCompatActivity {
         binding.cardSales.setOnClickListener(v -> startActivity(new Intent(this, SalesActivity.class)));
         binding.cardProducts.setOnClickListener(v -> startActivity(new Intent(this, ProductActivity.class)));
         binding.cardCustomers.setOnClickListener(v -> startActivity(new Intent(this, CustomerActivity.class)));
-        binding.cardReceiveDsr.setOnClickListener(v -> {
-            // Since ReceiveFromDsrActivity does not exist, show a toast for now.
-            // This avoids the crash pointed out by the code review.
-            // The user opted to skip creating this activity for now.
-            Toast.makeText(this, "This feature is coming soon!", Toast.LENGTH_SHORT).show();
-            // startActivity(new Intent(this, ReceiveFromDsrActivity.class))
-        });
+        binding.cardReceiveDsr.setOnClickListener(v -> startActivity(new Intent(this, ReceiveFromDsrActivity.class)));
         binding.settingsButton.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
         binding.aboutButton.setOnClickListener(v -> {
             // A simple Toast for the about button as requested by the review.
