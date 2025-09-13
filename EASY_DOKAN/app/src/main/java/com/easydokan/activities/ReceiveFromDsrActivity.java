@@ -135,7 +135,13 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
     private void setupListeners() {
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
         dsrAutocomplete.setOnItemClickListener((parent, view, position, id) -> selectedDsr = (DsrModel) parent.getItemAtPosition(position));
-        productAutocomplete.setOnItemClickListener((parent, view, position, id) -> selectedProduct = (ProductModel) parent.getItemAtPosition(position));
+        productAutocomplete.setOnItemClickListener((parent, view, position, id) -> {
+            selectedProduct = (ProductModel) parent.getItemAtPosition(position);
+            if (selectedProduct != null) {
+                // Auto-fill the price from the product's sale price
+                unitPriceEditText.setText(String.valueOf(selectedProduct.getPrice()));
+            }
+        });
         addDsrButton.setOnClickListener(v -> showAddDsrDialog());
         addProductButton.setOnClickListener(v -> showAddProductDialog());
         addToReceiveListButton.setOnClickListener(v -> addToReceiveList());
