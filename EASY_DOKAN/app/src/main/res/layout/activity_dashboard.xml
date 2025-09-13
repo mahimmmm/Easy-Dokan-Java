@@ -45,27 +45,27 @@
                 app:columnCount="2"
                 app:useDefaultMargins="true">
 
-                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard" app:layout_columnWeight="1" app:layout_gravity="fill">
                     <TextView android:id="@+id/total_products_text" style="@style/DashboardCardText" tools:text="Total Products\n0" />
                 </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard" app:layout_columnWeight="1" app:layout_gravity="fill">
                     <TextView android:id="@+id/total_sales_text" style="@style/DashboardCardText" tools:text="Total Sales\n৳0" />
                 </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard" app:layout_columnWeight="1" app:layout_gravity="fill">
                     <TextView android:id="@+id/stock_in_text" style="@style/DashboardCardText" tools:text="Stock In (DSR)\nN/A" />
                 </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard" app:layout_columnWeight="1" app:layout_gravity="fill">
                     <TextView android:id="@+id/pending_dues_text" style="@style/DashboardCardText" tools:text="Pending Dues\n৳0" />
                 </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard" app:layout_columnWeight="1" app:layout_gravity="fill">
                     <TextView android:id="@+id/todays_sales_text" style="@style/DashboardCardText" tools:text="Today's Sales\n৳0" />
                 </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard" app:layout_columnWeight="1" app:layout_gravity="fill">
                     <TextView android:id="@+id/low_stock_alerts_text" style="@style/DashboardCardText" tools:text="Low Stock Alerts\n0" />
                 </com.google.android.material.card.MaterialCardView>
 
