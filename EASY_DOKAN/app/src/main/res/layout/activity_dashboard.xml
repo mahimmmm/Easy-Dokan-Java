@@ -15,12 +15,11 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="@string/app_name"
-            tools:menu="@menu/dashboard_toolbar_menu" /> <!-- For preview -->
+            app:title="@string/dashboard" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -31,69 +30,90 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Navigation List -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/nav_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/dashboard_nav_item"
-                tools:itemCount="5"/>
-
-            <!-- Summary Title -->
+            <!-- Top Section (Quick Info Cards) -->
             <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/summary_title"
-                android:textAppearance="?attr/textAppearanceTitleLarge"
+                android:text="Quick Info"
+                android:textStyle="bold" />
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:columnCount="2"
+                app:useDefaultMargins="true">
+
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                    <TextView android:id="@+id/total_products_text" style="@style/DashboardCardText" tools:text="Total Products\n0" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                    <TextView android:id="@+id/total_sales_text" style="@style/DashboardCardText" tools:text="Total Sales\n৳0" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                    <TextView android:id="@+id/stock_in_text" style="@style/DashboardCardText" tools:text="Stock In (DSR)\nN/A" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                    <TextView android:id="@+id/pending_dues_text" style="@style/DashboardCardText" tools:text="Pending Dues\n৳0" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                    <TextView android:id="@+id/todays_sales_text" style="@style/DashboardCardText" tools:text="Today's Sales\n৳0" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView style="@style/DashboardInfoCard">
+                    <TextView android:id="@+id/low_stock_alerts_text" style="@style/DashboardCardText" tools:text="Low Stock Alerts\n0" />
+                </com.google.android.material.card.MaterialCardView>
+
+            </androidx.gridlayout.widget.GridLayout>
+
+            <!-- Middle Section (Charts & Graphs) -->
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp"/>
-
-            <!-- Summary Cards -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
-                app:cardBackgroundColor="@color/transparent_light_blue">
-                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/todays_sales" android:textSize="16sp"/>
-                    <TextView android:id="@+id/sales_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0.00" android:textSize="16sp" android:textStyle="bold"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:text="Charts &amp; Graphs"
+                android:textStyle="bold" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
-                app:cardBackgroundColor="@color/transparent_pink">
-                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/total_customers" android:textSize="16sp"/>
-                    <TextView android:id="@+id/customers_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="16sp" android:textStyle="bold"/>
-                </LinearLayout>
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp">
+                <ImageView
+                    android:id="@+id/sales_chart_placeholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerInside"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_reports"
+                    app:tint="?attr/colorSecondary"
+                    android:contentDescription="Sales Chart Placeholder" />
             </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
+            <!-- Bottom Section (Tables & Lists) -->
+            <TextView
+                style="@style/TextAppearance.Material3.TitleMedium"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
-                app:cardBackgroundColor="@color/transparent_light_blue">
-                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/total_products" android:textSize="16sp"/>
-                    <TextView android:id="@+id/products_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="16sp" android:textStyle="bold"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:layout_marginTop="24dp"
+                android:text="Recent Activity"
+                android:textStyle="bold" />
 
-            <com.google.android.material.card.MaterialCardView
+            <TextView
+                android:id="@+id/recent_activity_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
-                app:cardBackgroundColor="@color/transparent_pink">
-                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:gravity="center_vertical">
-                    <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/expense_summary" android:textSize="16sp"/>
-                    <TextView android:id="@+id/expense_value" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$0.00" android:textSize="16sp" android:textStyle="bold"/>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:layout_marginTop="8dp"
+                android:text="Loading recent activity..."
+                android:padding="8dp"
+                android:background="@drawable/bg_edit_text_rounded"/>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

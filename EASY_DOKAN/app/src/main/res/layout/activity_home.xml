@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        tools:context=".activities.HomePageActivity">
+
+        <!-- Header Section -->
+        <TextView
+            android:id="@+id/welcome_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/welcome_user"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/notification_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/date_time_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:layout_constraintEnd_toStartOf="@+id/notification_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/welcome_text"
+            tools:text="September 12, 2025" />
+
+        <ImageView
+            android:id="@+id/notification_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:src="@drawable/ic_notifications"
+            app:layout_constraintBottom_toBottomOf="@id/date_time_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/welcome_text" />
+
+        <!-- Quick Navigation Grid -->
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/quick_nav_grid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:columnCount="2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/date_time_text"
+            app:useDefaultMargins="true">
+
+            <!-- Dashboard Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_dashboard"
+                style="@style/HomeNavCard"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill_horizontal">
+                <LinearLayout style="@style/HomeNavCardContent">
+                    <ImageView style="@style/HomeNavCardIcon" android:src="@drawable/ic_dashboard" />
+                    <TextView style="@style/HomeNavCardText" android:text="@string/dashboard" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Sales Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_sales"
+                style="@style/HomeNavCard"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill_horizontal">
+                <LinearLayout style="@style/HomeNavCardContent">
+                    <ImageView style="@style/HomeNavCardIcon" android:src="@drawable/ic_sales" />
+                    <TextView style="@style/HomeNavCardText" android:text="@string/sales" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Products Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_products"
+                style="@style/HomeNavCard"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill_horizontal">
+                <LinearLayout style="@style/HomeNavCardContent">
+                    <ImageView style="@style/HomeNavCardIcon" android:src="@drawable/ic_products" />
+                    <TextView style="@style/HomeNavCardText" android:text="@string/products" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Receive From DSR Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_receive_dsr"
+                style="@style/HomeNavCard"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill_horizontal">
+                <LinearLayout style="@style/HomeNavCardContent">
+                    <ImageView style="@style/HomeNavCardIcon" android:src="@drawable/ic_backup" />
+                    <TextView style="@style/HomeNavCardText" android:text="@string/receive_from_dsr" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Customers Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_customers"
+                style="@style/HomeNavCard"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill_horizontal">
+                <LinearLayout style="@style/HomeNavCardContent">
+                    <ImageView style="@style/HomeNavCardIcon" android:src="@drawable/ic_customer" />
+                    <TextView style="@style/HomeNavCardText" android:text="@string/customers" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.gridlayout.widget.GridLayout>
+
+        <!-- Quick Stats Section -->
+        <TextView
+            android:id="@+id/quick_stats_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/quick_stats"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quick_nav_grid" />
+
+        <LinearLayout
+            android:id="@+id/quick_stats_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            android:padding="16dp"
+            android:background="@drawable/bg_edit_text_rounded"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quick_stats_title">
+
+            <TextView android:id="@+id/stat_todays_sales" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Today’s Sales: ..." tools:text="Today’s Sales: ৳0"/>
+            <TextView android:id="@+id/stat_total_products" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Total Products: ..." tools:text="Total Products: 0" android:layout_marginTop="8dp"/>
+            <TextView android:id="@+id/stat_low_stock" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Low Stock Items: ..." tools:text="Low Stock Items: 0" android:layout_marginTop="8dp"/>
+            <TextView android:id="@+id/stat_pending_payments" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pending Payments: ..." tools:text="Pending Payments: ৳0" android:layout_marginTop="8dp"/>
+
+        </LinearLayout>
+
+        <!-- Footer Section -->
+        <LinearLayout
+            android:id="@+id/footer_section"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quick_stats_container">
+
+            <Button
+                android:id="@+id/settings_button"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings"
+                app:icon="@drawable/ic_settings" />
+
+            <Button
+                android:id="@+id/about_button"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/about"
+                app:icon="@drawable/ic_info" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
