@@ -138,8 +138,12 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
         productAutocomplete.setOnItemClickListener((parent, view, position, id) -> {
             selectedProduct = (ProductModel) parent.getItemAtPosition(position);
             if (selectedProduct != null) {
-                // Auto-fill the price from the product's sale price
-                unitPriceEditText.setText(String.valueOf(selectedProduct.getPrice()));
+                // Auto-fill the price from the product's last purchase price
+                if (selectedProduct.getPurchasePrice() > 0) {
+                    unitPriceEditText.setText(String.valueOf(selectedProduct.getPurchasePrice()));
+                } else {
+                    unitPriceEditText.setText(""); // Clear if no purchase price is set
+                }
             }
         });
         addDsrButton.setOnClickListener(v -> showAddDsrDialog());
@@ -188,6 +192,7 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
         final EditText nameEt = dialogView.findViewById(R.id.product_name_edit_text_dialog);
         final EditText categoryEt = dialogView.findViewById(R.id.product_category_edit_text_dialog);
         final EditText priceEt = dialogView.findViewById(R.id.product_price_edit_text_dialog);
+        final EditText purchasePriceEt = dialogView.findViewById(R.id.product_purchase_price_edit_text_dialog);
         final EditText stockEt = dialogView.findViewById(R.id.product_stock_edit_text_dialog);
 
         builder.setPositiveButton("Add", (dialog, which) -> {
@@ -200,6 +205,7 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
             newProduct.setName(name);
             newProduct.setCategory(categoryEt.getText().toString());
             newProduct.setPrice(Double.parseDouble(priceEt.getText().toString().isEmpty() ? "0" : priceEt.getText().toString()));
+            newProduct.setPurchasePrice(Double.parseDouble(purchasePriceEt.getText().toString().isEmpty() ? "0" : purchasePriceEt.getText().toString()));
             newProduct.setStock(Long.parseLong(stockEt.getText().toString().isEmpty() ? "0" : stockEt.getText().toString()));
 
             productRef.add(newProduct).addOnSuccessListener(docRef -> {
@@ -230,8 +236,16 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
                 DocumentReference productDocRef = productRef.document(item.getProductId());
                 DocumentSnapshot productSnap = transaction.get(productDocRef);
                 if (!productSnap.exists()) throw new FirebaseFirestoreException("Product not found: " + item.getProductName(), FirebaseFirestoreException.Code.ABORTED);
-                long currentStock = productSnap.getLong("stock");
+
+                // Update stock
+                long currentStock = 0;
+                if (productSnap.contains("stock")) {
+                    currentStock = productSnap.getLong("stock");
+                }
                 transaction.update(productDocRef, "stock", currentStock + item.getQuantity());
+
+                // Update purchase price
+                transaction.update(productDocRef, "purchasePrice", item.getUnitPrice());
             }
             Map<String, Object> receiveData = new HashMap<>();
             receiveData.put("dsrId", selectedDsr.getId());

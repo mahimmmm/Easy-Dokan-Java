@@ -13,7 +13,8 @@ public class ProductModel {
     private String name;
     private String code;
     private String category;
-    private double price;
+    private double price; // This is the selling price
+    private double purchasePrice;
     private long stock;
     private String description;
     private String imageUrl;
@@ -38,6 +39,8 @@ public class ProductModel {
     public void setCategory(String category) { this.category = category; }
     public double getPrice() { return price; }
     public void setPrice(double price) { this.price = price; }
+    public double getPurchasePrice() { return purchasePrice; }
+    public void setPurchasePrice(double purchasePrice) { this.purchasePrice = purchasePrice; }
     public long getStock() { return stock; }
     public void setStock(long stock) { this.stock = stock; }
     public String getDescription() { return description; }

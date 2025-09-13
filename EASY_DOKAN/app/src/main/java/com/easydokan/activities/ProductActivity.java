@@ -138,6 +138,7 @@ public class ProductActivity extends AppCompatActivity {
         final EditText codeEt = dialogView.findViewById(R.id.code_edit_text);
         final EditText categoryEt = dialogView.findViewById(R.id.category_edit_text);
         final EditText priceEt = dialogView.findViewById(R.id.price_edit_text);
+        final EditText purchasePriceEt = dialogView.findViewById(R.id.purchase_price_edit_text);
         final EditText stockEt = dialogView.findViewById(R.id.stock_edit_text);
         final EditText descEt = dialogView.findViewById(R.id.description_edit_text);
 
@@ -150,6 +151,7 @@ public class ProductActivity extends AppCompatActivity {
             codeEt.setText(existingProduct.getCode());
             categoryEt.setText(existingProduct.getCategory());
             priceEt.setText(String.valueOf(existingProduct.getPrice()));
+            purchasePriceEt.setText(String.valueOf(existingProduct.getPurchasePrice()));
             stockEt.setText(String.valueOf(existingProduct.getStock()));
             descEt.setText(existingProduct.getDescription());
             if (existingProduct.getImageUrl() != null) {
@@ -167,13 +169,13 @@ public class ProductActivity extends AppCompatActivity {
                 return;
             }
             uploadImageAndSaveProduct(name, codeEt.getText().toString(), categoryEt.getText().toString(),
-                    priceEt.getText().toString(), stockEt.getText().toString(), descEt.getText().toString(), finalExistingProduct);
+                    priceEt.getText().toString(), purchasePriceEt.getText().toString(), stockEt.getText().toString(), descEt.getText().toString(), finalExistingProduct);
         });
         builder.setNegativeButton("Cancel", null);
         builder.create().show();
     }
 
-    private void uploadImageAndSaveProduct(String name, String code, String category, String priceStr, String stockStr, String desc, ProductModel existingProduct) {
+    private void uploadImageAndSaveProduct(String name, String code, String category, String priceStr, String purchasePriceStr, String stockStr, String desc, ProductModel existingProduct) {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Saving Product...");
         progressDialog.show();
@@ -184,19 +186,20 @@ public class ProductActivity extends AppCompatActivity {
                 if(existingProduct != null && existingProduct.getImageUrl() != null) {
                     FirebaseStorage.getInstance().getReferenceFromUrl(existingProduct.getImageUrl()).delete();
                 }
-                saveProductToFirestore(name, code, category, priceStr, stockStr, desc, uri.toString(), existingProduct, progressDialog);
+                saveProductToFirestore(name, code, category, priceStr, purchasePriceStr, stockStr, desc, uri.toString(), existingProduct, progressDialog);
             })).addOnFailureListener(e -> {
                 progressDialog.dismiss();
                 Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show();
             });
         } else {
             String imageUrl = (existingProduct != null) ? existingProduct.getImageUrl() : "";
-            saveProductToFirestore(name, code, category, priceStr, stockStr, desc, imageUrl, existingProduct, progressDialog);
+            saveProductToFirestore(name, code, category, priceStr, purchasePriceStr, stockStr, desc, imageUrl, existingProduct, progressDialog);
         }
     }
 
-    private void saveProductToFirestore(String name, String code, String category, String priceStr, String stockStr, String desc, String imageUrl, ProductModel existingProduct, ProgressDialog progressDialog) {
+    private void saveProductToFirestore(String name, String code, String category, String priceStr, String purchasePriceStr, String stockStr, String desc, String imageUrl, ProductModel existingProduct, ProgressDialog progressDialog) {
         double price = TextUtils.isEmpty(priceStr) ? 0 : Double.parseDouble(priceStr);
+        double purchasePrice = TextUtils.isEmpty(purchasePriceStr) ? 0 : Double.parseDouble(purchasePriceStr);
         long stock = TextUtils.isEmpty(stockStr) ? 0 : Long.parseLong(stockStr);
 
         ProductModel product = new ProductModel();
@@ -204,6 +207,7 @@ public class ProductActivity extends AppCompatActivity {
         product.setCode(code);
         product.setCategory(category);
         product.setPrice(price);
+        product.setPurchasePrice(purchasePrice);
         product.setStock(stock);
         product.setDescription(desc);
         product.setImageUrl(imageUrl);
