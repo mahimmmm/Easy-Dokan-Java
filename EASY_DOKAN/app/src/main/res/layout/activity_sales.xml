@@ -90,7 +90,7 @@
             <TextView style="@style/TextAppearance.Material3.TitleMedium" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Payment Method" android:layout_marginTop="24dp" />
             <RadioGroup android:id="@+id/payment_method_radiogroup" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
                 <RadioButton android:id="@+id/radio_cash" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cash" android:checked="true" />
-                <RadioButton android:id="@+id/radio_mobile_banking" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mobile Banking" android:layout_marginStart="16dp"/>
+                <RadioButton android:id="@+id/radio_bkash" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="bKash" android:layout_marginStart="16dp"/>
                 <RadioButton android:id="@+id/radio_card" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Card" android:layout_marginStart="16dp"/>
                 <RadioButton android:id="@+id/radio_due" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Due" android:layout_marginStart="16dp"/>
             </RadioGroup>
