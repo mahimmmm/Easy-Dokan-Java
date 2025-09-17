@@ -1,8 +1,6 @@
 package com.easydokan.activities;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,15 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
-import com.bumptech.glide.Glide;
 import com.easydokan.R;
 import com.easydokan.adapters.ProductAdapter;
 import com.easydokan.databinding.ActivityProductBinding;
@@ -29,26 +23,14 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 public class ProductActivity extends AppCompatActivity {
 
     private ActivityProductBinding binding;
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
-    private StorageReference storageRef;
     private ProductAdapter adapter;
     private CollectionReference productRef;
-
-    private Uri imageUri;
-    private ImageView dialogProductImage;
-    private ActivityResultLauncher<String> mGetContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +40,9 @@ public class ProductActivity extends AppCompatActivity {
 
         initFirebase();
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         binding.toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         if (mAuth.getCurrentUser() != null) {
@@ -70,22 +54,11 @@ public class ProductActivity extends AppCompatActivity {
         }
 
         binding.fabAddProduct.setOnClickListener(v -> showAddEditProductDialog(null));
-        registerImagePicker();
     }
 
     private void initFirebase() {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        storageRef = FirebaseStorage.getInstance().getReference();
-    }
-
-    private void registerImagePicker() {
-        mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
-            if (uri != null) {
-                imageUri = uri;
-                if (dialogProductImage != null) dialogProductImage.setImageURI(imageUri);
-            }
-        });
     }
 
     private void setupRecyclerView(Query query) {
@@ -93,7 +66,6 @@ public class ProductActivity extends AppCompatActivity {
                 .setQuery(query, ProductModel.class).build();
         adapter = new ProductAdapter(options);
         binding.productRecyclerView.setHasFixedSize(true);
-        // Using a GridLayoutManager for the grid view
         binding.productRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         binding.productRecyclerView.setAdapter(adapter);
         adapter.startListening();
@@ -107,56 +79,35 @@ public class ProductActivity extends AppCompatActivity {
             public void onDeleteClick(DocumentSnapshot documentSnapshot) {
                 new AlertDialog.Builder(ProductActivity.this)
                         .setTitle("Delete Product")
-                        .setMessage("Are you sure?")
-                        .setPositiveButton("Delete", (dialog, which) -> deleteProduct(documentSnapshot))
+                        .setMessage("Are you sure you want to delete this product?")
+                        .setPositiveButton("Delete", (dialog, which) -> documentSnapshot.getReference().delete())
                         .setNegativeButton("Cancel", null).show();
             }
         });
     }
 
-    private void deleteProduct(DocumentSnapshot snapshot) {
-        ProductModel product = snapshot.toObject(ProductModel.class);
-        if (product != null && product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
-            StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(product.getImageUrl());
-            imageRef.delete().addOnSuccessListener(aVoid -> snapshot.getReference().delete());
-        } else {
-            snapshot.getReference().delete();
-        }
-        Toast.makeText(this, "Product deleted", Toast.LENGTH_SHORT).show();
-    }
-
     private void showAddEditProductDialog(DocumentSnapshot snapshot) {
-        imageUri = null;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_edit_product, null);
         builder.setView(dialogView);
 
-        dialogProductImage = dialogView.findViewById(R.id.product_image_view);
-        dialogView.findViewById(R.id.select_image_button).setOnClickListener(v -> mGetContent.launch("image/*"));
-
         final EditText nameEt = dialogView.findViewById(R.id.name_edit_text);
-        final EditText codeEt = dialogView.findViewById(R.id.code_edit_text);
         final EditText categoryEt = dialogView.findViewById(R.id.category_edit_text);
+        final EditText unitEt = dialogView.findViewById(R.id.unit_edit_text);
         final EditText priceEt = dialogView.findViewById(R.id.price_edit_text);
-        final EditText purchasePriceEt = dialogView.findViewById(R.id.purchase_price_edit_text);
         final EditText stockEt = dialogView.findViewById(R.id.stock_edit_text);
-        final EditText descEt = dialogView.findViewById(R.id.description_edit_text);
 
         ProductModel existingProduct = null;
         if (snapshot != null) {
             builder.setTitle(R.string.edit_product);
             existingProduct = snapshot.toObject(ProductModel.class);
-            existingProduct.setId(snapshot.getId()); // Store ID for update
+            existingProduct.setId(snapshot.getId());
+
             nameEt.setText(existingProduct.getName());
-            codeEt.setText(existingProduct.getCode());
             categoryEt.setText(existingProduct.getCategory());
+            unitEt.setText(existingProduct.getUnit());
             priceEt.setText(String.valueOf(existingProduct.getPrice()));
-            purchasePriceEt.setText(String.valueOf(existingProduct.getPurchasePrice()));
             stockEt.setText(String.valueOf(existingProduct.getStock()));
-            descEt.setText(existingProduct.getDescription());
-            if (existingProduct.getImageUrl() != null) {
-                Glide.with(this).load(existingProduct.getImageUrl()).into(dialogProductImage);
-            }
         } else {
             builder.setTitle(R.string.add_new_product);
         }
@@ -168,85 +119,31 @@ public class ProductActivity extends AppCompatActivity {
                 Toast.makeText(this, "Product name is required", Toast.LENGTH_SHORT).show();
                 return;
             }
-            uploadImageAndSaveProduct(name, codeEt.getText().toString(), categoryEt.getText().toString(),
-                    priceEt.getText().toString(), purchasePriceEt.getText().toString(), stockEt.getText().toString(), descEt.getText().toString(), finalExistingProduct);
+            saveProductToFirestore(name, categoryEt.getText().toString(), unitEt.getText().toString(),
+                    priceEt.getText().toString(), stockEt.getText().toString(), finalExistingProduct);
         });
         builder.setNegativeButton("Cancel", null);
         builder.create().show();
     }
 
-    private void uploadImageAndSaveProduct(String name, String code, String category, String priceStr, String purchasePriceStr, String stockStr, String desc, ProductModel existingProduct) {
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Saving Product...");
-        progressDialog.show();
-
-        if (imageUri != null) {
-            StorageReference fileRef = storageRef.child("product_images/" + mAuth.getCurrentUser().getUid() + "/" + UUID.randomUUID().toString());
-            fileRef.putFile(imageUri).addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                if(existingProduct != null && existingProduct.getImageUrl() != null) {
-                    FirebaseStorage.getInstance().getReferenceFromUrl(existingProduct.getImageUrl()).delete();
-                }
-                saveProductToFirestore(name, code, category, priceStr, purchasePriceStr, stockStr, desc, uri.toString(), existingProduct, progressDialog);
-            })).addOnFailureListener(e -> {
-                progressDialog.dismiss();
-                Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show();
-            });
-        } else {
-            String imageUrl = (existingProduct != null) ? existingProduct.getImageUrl() : "";
-            saveProductToFirestore(name, code, category, priceStr, purchasePriceStr, stockStr, desc, imageUrl, existingProduct, progressDialog);
-        }
-    }
-
-    private void saveProductToFirestore(String name, String code, String category, String priceStr, String purchasePriceStr, String stockStr, String desc, String imageUrl, ProductModel existingProduct, ProgressDialog progressDialog) {
+    private void saveProductToFirestore(String name, String category, String unit, String priceStr, String stockStr, ProductModel existingProduct) {
         double price = TextUtils.isEmpty(priceStr) ? 0 : Double.parseDouble(priceStr);
-        double purchasePrice = TextUtils.isEmpty(purchasePriceStr) ? 0 : Double.parseDouble(purchasePriceStr);
         long stock = TextUtils.isEmpty(stockStr) ? 0 : Long.parseLong(stockStr);
 
         ProductModel product = new ProductModel();
         product.setName(name);
-        product.setCode(code);
         product.setCategory(category);
+        product.setUnit(unit);
         product.setPrice(price);
-        product.setPurchasePrice(purchasePrice);
         product.setStock(stock);
-        product.setDescription(desc);
-        product.setImageUrl(imageUrl);
-        product.setSearchKeywords(generateSearchKeywords(name, code));
+        product.setAdded_by(mAuth.getCurrentUser().getUid());
+        // last_updated will be set by @ServerTimestamp
 
         if (existingProduct != null) {
-            productRef.document(existingProduct.getId()).set(product).addOnCompleteListener(task -> progressDialog.dismiss());
+            productRef.document(existingProduct.getId()).set(product);
         } else {
-            productRef.add(product).addOnCompleteListener(task -> progressDialog.dismiss());
+            productRef.add(product);
         }
-    }
-
-    private List<String> generateSearchKeywords(String productName, String productCode) {
-        Set<String> keywords = new HashSet<>();
-
-        // Process Product Name
-        if (productName != null && !productName.isEmpty()) {
-            String lowerCaseName = productName.toLowerCase().trim();
-            String[] nameParts = lowerCaseName.split("\\s+");
-            for (String part : nameParts) {
-                if (!part.isEmpty()) {
-                    for (int i = 1; i <= part.length(); i++) {
-                        keywords.add(part.substring(0, i));
-                    }
-                }
-            }
-        }
-
-        // Process Product Code
-        if (productCode != null && !productCode.isEmpty()) {
-            String lowerCaseCode = productCode.toLowerCase().trim();
-            if (!lowerCaseCode.isEmpty()) {
-                for (int i = 1; i <= lowerCaseCode.length(); i++) {
-                    keywords.add(lowerCaseCode.substring(0, i));
-                }
-            }
-        }
-
-        return new ArrayList<>(keywords);
     }
 
     @Override
@@ -277,10 +174,7 @@ public class ProductActivity extends AppCompatActivity {
         if (searchText.isEmpty()) {
             query = productRef.orderBy("name", Query.Direction.ASCENDING);
         } else {
-            // This query requires a composite index on (searchKeywords ASC, name ASC) in Firestore.
-            // The Firebase console will provide a link to create this index if it's missing.
-            query = productRef.whereArrayContains("searchKeywords", searchText)
-                             .orderBy("name", Query.Direction.ASCENDING);
+            query = productRef.orderBy("name").startAt(searchText).endAt(searchText + "\uf8ff");
         }
         FirestoreRecyclerOptions<ProductModel> options = new FirestoreRecyclerOptions.Builder<ProductModel>()
                 .setQuery(query, ProductModel.class).build();

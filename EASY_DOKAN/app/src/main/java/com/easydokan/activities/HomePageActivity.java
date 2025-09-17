@@ -9,9 +9,9 @@ import com.easydokan.databinding.ActivityHomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,6 +23,7 @@ public class HomePageActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private DocumentReference profileRef;
     private CollectionReference productsRef;
     private CollectionReference salesRef;
     private CollectionReference customersRef;
@@ -45,35 +46,30 @@ public class HomePageActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            String userId = currentUser.getUid();
-            productsRef = db.collection("users").document(userId).collection("products");
-            salesRef = db.collection("users").document(userId).collection("sales");
-            customersRef = db.collection("users").document(userId).collection("customers");
+            String uid = currentUser.getUid();
+            profileRef = db.collection("users").document(uid).collection("profile").document("user_profile");
+            productsRef = db.collection("users").document(uid).collection("products");
+            salesRef = db.collection("users").document(uid).collection("sales");
+            customersRef = db.collection("users").document(uid).collection("customers");
         } else {
-            // This should not happen if the user is on this page, but as a safeguard:
             Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show();
             finish();
         }
     }
 
     private void setupUserInfo() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            String displayName = currentUser.getDisplayName();
-            if (displayName != null && !displayName.isEmpty()) {
-                binding.welcomeText.setText(getString(R.string.welcome_user, displayName));
-            } else if (currentUser.getEmail() != null) {
-                binding.welcomeText.setText(getString(R.string.welcome_user, currentUser.getEmail()));
-            } else {
-                binding.welcomeText.setText(getString(R.string.welcome_user, "User"));
-            }
+        if (profileRef != null) {
+            profileRef.get().addOnSuccessListener(doc -> {
+                if (doc.exists() && doc.contains("owner")) {
+                    binding.welcomeText.setText(getString(R.string.welcome_user, doc.getString("owner")));
+                }
+            });
         }
     }
 
     private void setupDateTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
-        String currentDate = dateFormat.format(new Date());
-        binding.dateTimeText.setText(currentDate);
+        binding.dateTimeText.setText(dateFormat.format(new Date()));
     }
 
     private void setupNavigation() {
@@ -83,22 +79,13 @@ public class HomePageActivity extends AppCompatActivity {
         binding.cardCustomers.setOnClickListener(v -> startActivity(new Intent(this, CustomerActivity.class)));
         binding.cardReceiveDsr.setOnClickListener(v -> startActivity(new Intent(this, ReceiveFromDsrActivity.class)));
         binding.settingsButton.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
-        binding.aboutButton.setOnClickListener(v -> {
-            // A simple Toast for the about button as requested by the review.
-            Toast.makeText(this, "Easy Dokan v1.0", Toast.LENGTH_SHORT).show();
-        });
+        binding.aboutButton.setOnClickListener(v -> Toast.makeText(this, "Easy Dokan v1.0", Toast.LENGTH_SHORT).show());
     }
 
     private void fetchQuickStats() {
-        if (mAuth.getCurrentUser() == null) return;
-
-        // Today's Sales
         fetchTodaysSales();
-        // Total Products
         fetchTotalProducts();
-        // Low Stock
         fetchLowStockAlerts();
-        // Pending Payments
         fetchPendingDues();
     }
 
@@ -106,15 +93,12 @@ public class HomePageActivity extends AppCompatActivity {
         if (salesRef == null) return;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
         Date startOfDay = calendar.getTime();
-
-        salesRef.whereGreaterThanOrEqualTo("createdAt", startOfDay).get().addOnSuccessListener(snapshots -> {
+        salesRef.whereGreaterThanOrEqualTo("created_at", startOfDay).get().addOnSuccessListener(snapshots -> {
             double todaysSales = 0;
             for (QueryDocumentSnapshot doc : snapshots) {
-                if (doc.contains("total")) {
-                    todaysSales += doc.getDouble("total");
+                if (doc.contains("total_amount")) {
+                    todaysSales += doc.getDouble("total_amount");
                 }
             }
             binding.statTodaysSales.setText("Today’s Sales: " + formatCurrency(todaysSales));
@@ -137,11 +121,11 @@ public class HomePageActivity extends AppCompatActivity {
 
     private void fetchPendingDues() {
         if (customersRef == null) return;
-        customersRef.whereGreaterThan("due", 0).get().addOnSuccessListener(snapshots -> {
+        customersRef.whereGreaterThan("total_due", 0).get().addOnSuccessListener(snapshots -> {
             double totalDues = 0;
             for (QueryDocumentSnapshot doc : snapshots) {
-                if (doc.contains("due")) {
-                    totalDues += doc.getDouble("due");
+                if (doc.contains("total_due")) {
+                    totalDues += doc.getDouble("total_due");
                 }
             }
             binding.statPendingPayments.setText("Pending Payments: " + formatCurrency(totalDues));

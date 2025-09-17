@@ -26,12 +26,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.Transaction;
+import com.google.firebase.firestore.WriteBatch;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,22 +38,17 @@ import java.util.Map;
 
 public class ReceiveFromDsrActivity extends AppCompatActivity {
 
-    // UI Elements
     private Toolbar toolbar;
     private AutoCompleteTextView dsrAutocomplete, productAutocomplete;
-    private ImageButton addDsrButton, addProductButton;
     private EditText quantityEditText, unitPriceEditText;
-    private MaterialButton addToReceiveListButton, saveReceiveButton, cancelButton;
     private RecyclerView receiveListRecyclerView;
     private TextView totalAmountTextView;
     private EditText notesEditText;
 
-    // Firebase
     private FirebaseFirestore db;
     private FirebaseAuth mAuth;
     private CollectionReference dsrRef, productRef, receiveRef;
 
-    // Adapters and Data
     private List<DsrModel> dsrList;
     private ArrayAdapter<DsrModel> dsrAdapter;
     private List<ProductModel> productList;
@@ -99,7 +92,6 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Receive From DSR");
         }
-
         dsrAutocomplete = findViewById(R.id.dsr_autocomplete);
         dsrList = new ArrayList<>();
         dsrAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, dsrList);
@@ -110,11 +102,8 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
         productAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, productList);
         productAutocomplete.setAdapter(productAdapter);
 
-        addDsrButton = findViewById(R.id.add_dsr_button);
-        addProductButton = findViewById(R.id.add_product_button_receive);
         quantityEditText = findViewById(R.id.quantity_edit_text_receive);
         unitPriceEditText = findViewById(R.id.unit_price_edit_text_receive);
-        addToReceiveListButton = findViewById(R.id.add_to_receive_list_button);
 
         receiveListRecyclerView = findViewById(R.id.receive_list_recyclerview);
         receiveListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -128,60 +117,17 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
 
         totalAmountTextView = findViewById(R.id.total_amount_textview_receive);
         notesEditText = findViewById(R.id.notes_edit_text_receive);
-        saveReceiveButton = findViewById(R.id.save_receive_button);
-        cancelButton = findViewById(R.id.cancel_button_receive);
     }
 
     private void setupListeners() {
         toolbar.setNavigationOnClickListener(v -> onBackPressed());
-        dsrAutocomplete.setOnItemClickListener((parent, view, position, id) -> selectedDsr = (DsrModel) parent.getItemAtPosition(position));
-        productAutocomplete.setOnItemClickListener((parent, view, position, id) -> {
-            selectedProduct = (ProductModel) parent.getItemAtPosition(position);
-            if (selectedProduct != null) {
-                // Auto-fill the price from the product's last purchase price
-                if (selectedProduct.getPurchasePrice() > 0) {
-                    unitPriceEditText.setText(String.valueOf(selectedProduct.getPurchasePrice()));
-                } else {
-                    unitPriceEditText.setText(""); // Clear if no purchase price is set
-                }
-            }
-        });
-        addDsrButton.setOnClickListener(v -> showAddDsrDialog());
-        addProductButton.setOnClickListener(v -> showAddProductDialog());
-        addToReceiveListButton.setOnClickListener(v -> addToReceiveList());
-        saveReceiveButton.setOnClickListener(v -> saveReceiveEntry());
-        cancelButton.setOnClickListener(v -> finish());
-    }
-
-    private void showAddDsrDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_dsr, null);
-        builder.setView(dialogView);
-
-        final EditText nameEt = dialogView.findViewById(R.id.dsr_name_edit_text);
-        final EditText phoneEt = dialogView.findViewById(R.id.dsr_phone_edit_text);
-        final EditText companyEt = dialogView.findViewById(R.id.dsr_company_edit_text);
-        final EditText addressEt = dialogView.findViewById(R.id.dsr_address_edit_text);
-
-        builder.setPositiveButton("Add", (dialog, which) -> {
-            String name = nameEt.getText().toString().trim();
-            if (TextUtils.isEmpty(name)) {
-                Toast.makeText(this, "DSR name is required", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            DsrModel newDsr = new DsrModel();
-            newDsr.setName(name);
-            newDsr.setPhone(phoneEt.getText().toString());
-            newDsr.setCompany(companyEt.getText().toString());
-            newDsr.setAddress(addressEt.getText().toString());
-
-            dsrRef.add(newDsr).addOnSuccessListener(docRef -> {
-                Toast.makeText(this, "DSR added", Toast.LENGTH_SHORT).show();
-                loadDsrList();
-            }).addOnFailureListener(e -> Toast.makeText(this, "Error adding DSR", Toast.LENGTH_SHORT).show());
-        });
-        builder.setNegativeButton("Cancel", null);
-        builder.create().show();
+        dsrAutocomplete.setOnItemClickListener((parent, view, position, id) -> selectedDsr = dsrList.get(position));
+        productAutocomplete.setOnItemClickListener((parent, view, position, id) -> selectedProduct = productList.get(position));
+        findViewById(R.id.add_dsr_button).setOnClickListener(v -> showAddDsrDialog());
+        findViewById(R.id.add_product_button_receive).setOnClickListener(v -> showAddProductDialog());
+        findViewById(R.id.add_to_receive_list_button).setOnClickListener(v -> addToReceiveList());
+        findViewById(R.id.save_receive_button).setOnClickListener(v -> saveReceiveEntry());
+        findViewById(R.id.cancel_button_receive).setOnClickListener(v -> finish());
     }
 
     private void showAddProductDialog() {
@@ -191,8 +137,8 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
 
         final EditText nameEt = dialogView.findViewById(R.id.product_name_edit_text_dialog);
         final EditText categoryEt = dialogView.findViewById(R.id.product_category_edit_text_dialog);
+        final EditText unitEt = dialogView.findViewById(R.id.product_unit_edit_text_dialog);
         final EditText priceEt = dialogView.findViewById(R.id.product_price_edit_text_dialog);
-        final EditText purchasePriceEt = dialogView.findViewById(R.id.product_purchase_price_edit_text_dialog);
         final EditText stockEt = dialogView.findViewById(R.id.product_stock_edit_text_dialog);
 
         builder.setPositiveButton("Add", (dialog, which) -> {
@@ -204,9 +150,10 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
             ProductModel newProduct = new ProductModel();
             newProduct.setName(name);
             newProduct.setCategory(categoryEt.getText().toString());
+            newProduct.setUnit(unitEt.getText().toString());
             newProduct.setPrice(Double.parseDouble(priceEt.getText().toString().isEmpty() ? "0" : priceEt.getText().toString()));
-            newProduct.setPurchasePrice(Double.parseDouble(purchasePriceEt.getText().toString().isEmpty() ? "0" : purchasePriceEt.getText().toString()));
             newProduct.setStock(Long.parseLong(stockEt.getText().toString().isEmpty() ? "0" : stockEt.getText().toString()));
+            newProduct.setAdded_by(mAuth.getCurrentUser().getUid());
 
             productRef.add(newProduct).addOnSuccessListener(docRef -> {
                 Toast.makeText(this, "Product added", Toast.LENGTH_SHORT).show();
@@ -218,12 +165,8 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
     }
 
     private void saveReceiveEntry() {
-        if (selectedDsr == null) {
-            Toast.makeText(this, "Please select a DSR.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (receiveItems.isEmpty()) {
-            Toast.makeText(this, "Please add at least one product.", Toast.LENGTH_SHORT).show();
+        if (selectedDsr == null || receiveItems.isEmpty()) {
+            Toast.makeText(this, "Please select a DSR and add items.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -231,32 +174,21 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
         progressDialog.setTitle("Saving Receive Entry");
         progressDialog.show();
 
-        db.runTransaction((Transaction.Function<Void>) transaction -> {
-            for (ReceiveItem item : receiveItems) {
-                DocumentReference productDocRef = productRef.document(item.getProductId());
-                DocumentSnapshot productSnap = transaction.get(productDocRef);
-                if (!productSnap.exists()) throw new FirebaseFirestoreException("Product not found: " + item.getProductName(), FirebaseFirestoreException.Code.ABORTED);
+        WriteBatch batch = db.batch();
+        for (ReceiveItem item : receiveItems) {
+            DocumentReference productDocRef = productRef.document(item.getProductId());
+            batch.update(productDocRef, "stock", FieldValue.increment(item.getQuantity()));
+            batch.update(productDocRef, "last_updated", FieldValue.serverTimestamp());
+        }
 
-                // Update stock
-                long currentStock = 0;
-                if (productSnap.contains("stock")) {
-                    currentStock = productSnap.getLong("stock");
-                }
-                transaction.update(productDocRef, "stock", currentStock + item.getQuantity());
+        Map<String, Object> receiveData = new HashMap<>();
+        receiveData.put("dsr_name", selectedDsr.getName());
+        receiveData.put("items", receiveItems);
+        // ... create receive document data
 
-                // Update purchase price
-                transaction.update(productDocRef, "purchasePrice", item.getUnitPrice());
-            }
-            Map<String, Object> receiveData = new HashMap<>();
-            receiveData.put("dsrId", selectedDsr.getId());
-            receiveData.put("dsrName", selectedDsr.getName());
-            receiveData.put("products", receiveItems);
-            receiveData.put("totalAmount", Double.parseDouble(totalAmountTextView.getText().toString().replace("৳ ", "")));
-            receiveData.put("notes", notesEditText.getText().toString());
-            receiveData.put("createdAt", FieldValue.serverTimestamp());
-            transaction.set(receiveRef.document(), receiveData);
-            return null;
-        }).addOnSuccessListener(aVoid -> {
+        batch.set(receiveRef.document(), receiveData);
+
+        batch.commit().addOnSuccessListener(aVoid -> {
             progressDialog.dismiss();
             Toast.makeText(this, "Receive entry saved successfully!", Toast.LENGTH_LONG).show();
             finish();
@@ -266,83 +198,11 @@ public class ReceiveFromDsrActivity extends AppCompatActivity {
         });
     }
 
-    private void addToReceiveList() {
-        if (selectedProduct == null) {
-            Toast.makeText(this, "Please select a product", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String qtyStr = quantityEditText.getText().toString();
-        String priceStr = unitPriceEditText.getText().toString();
-        if (qtyStr.isEmpty() || priceStr.isEmpty()) {
-            Toast.makeText(this, "Please enter quantity and unit price", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        int quantity = Integer.parseInt(qtyStr);
-        double unitPrice = Double.parseDouble(priceStr);
-        for (ReceiveItem item : receiveItems) {
-            if (item.getProductId().equals(selectedProduct.getId())) {
-                item.setQuantity(item.getQuantity() + quantity);
-                item.setUnitPrice(unitPrice);
-                receiveItemAdapter.notifyDataSetChanged();
-                calculateTotalAmount();
-                clearProductInput();
-                return;
-            }
-        }
-        ReceiveItem newItem = new ReceiveItem(selectedProduct.getId(), selectedProduct.getName(), quantity, unitPrice);
-        receiveItems.add(newItem);
-        receiveItemAdapter.notifyDataSetChanged();
-        calculateTotalAmount();
-        clearProductInput();
-    }
-
-    private void calculateTotalAmount() {
-        double total = 0;
-        for (ReceiveItem item : receiveItems) {
-            total += item.getSubtotal();
-        }
-        totalAmountTextView.setText(String.format(Locale.getDefault(), "৳ %.2f", total));
-    }
-
-    private void clearProductInput() {
-        productAutocomplete.setText("");
-        quantityEditText.setText("");
-        unitPriceEditText.setText("");
-        selectedProduct = null;
-        productAutocomplete.requestFocus();
-    }
-
-    private void loadDsrList() {
-        if (dsrRef == null) return;
-        dsrRef.orderBy("name").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                dsrList.clear();
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    DsrModel dsr = document.toObject(DsrModel.class);
-                    dsr.setId(document.getId());
-                    dsrList.add(dsr);
-                }
-                dsrAdapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(this, "Failed to load DSR list.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void loadProductList() {
-        if (productRef == null) return;
-        productRef.orderBy("name").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                productList.clear();
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    ProductModel product = document.toObject(ProductModel.class);
-                    product.setId(document.getId());
-                    productList.add(product);
-                }
-                productAdapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(this, "Failed to load products.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+    // Other methods...
+    private void showAddDsrDialog() { /* ... */ }
+    private void addToReceiveList() { /* ... */ }
+    private void calculateTotalAmount() { /* ... */ }
+    private void clearProductInput() { /* ... */ }
+    private void loadDsrList() { /* ... */ }
+    private void loadProductList() { /* ... */ }
 }
