@@ -26,11 +26,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:paddingBottom="16dp">
 
             <!-- Profile Section -->
-            <TextView style="@style/SettingsSectionHeader" android:text="@string/settings_section_profile"/>
-            <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">
+            <com.google.android.material.card.MaterialCardView style="@style/SettingsProfileCard">
                 <LinearLayout style="@style/SettingsCardContent">
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/profile_image"

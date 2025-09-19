@@ -7,6 +7,7 @@ public class ProfileModel {
     private String email;
     private String language;
     private String theme;
+    private String imageUrl;
 
     public ProfileModel() {
         // Required empty public constructor for Firestore
@@ -25,4 +26,6 @@ public class ProfileModel {
     public void setLanguage(String language) { this.language = language; }
     public String getTheme() { return theme; }
     public void setTheme(String theme) { this.theme = theme; }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }
