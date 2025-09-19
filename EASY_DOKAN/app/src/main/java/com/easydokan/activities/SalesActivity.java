@@ -9,7 +9,8 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.text.TextUtils;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -136,6 +137,9 @@ public class SalesActivity extends AppCompatActivity {
             updateDueBalanceDisplay();
         });
         productAutocomplete.setOnItemClickListener((parent, view, position, id) -> selectedProduct = productList.get(position));
+
+        findViewById(R.id.add_customer_button).setOnClickListener(v -> showAddCustomerDialog());
+        findViewById(R.id.add_product_button).setOnClickListener(v -> showAddProductDialog());
 
         android.text.TextWatcher textWatcher = new android.text.TextWatcher() {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -273,5 +277,80 @@ public class SalesActivity extends AppCompatActivity {
         quantityEditText.setText("");
         selectedProduct = null;
         productAutocomplete.requestFocus();
+    }
+
+    private void showAddCustomerDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_edit_customer, null);
+        builder.setView(dialogView);
+
+        final EditText nameEt = dialogView.findViewById(R.id.name_edit_text);
+        final EditText phoneEt = dialogView.findViewById(R.id.phone_edit_text);
+        final EditText addressEt = dialogView.findViewById(R.id.address_edit_text);
+        final EditText totalDueEt = dialogView.findViewById(R.id.total_due_edit_text);
+
+        builder.setTitle(R.string.add_new_customer);
+
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            String name = nameEt.getText().toString().trim();
+            String phone = phoneEt.getText().toString().trim();
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(phone)) {
+                Toast.makeText(this, "Name and Phone are required", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            CustomerModel customer = new CustomerModel();
+            customer.setName(name);
+            customer.setPhone(phone);
+            customer.setAddress(addressEt.getText().toString().trim());
+            try {
+                customer.setTotal_due(Double.parseDouble(totalDueEt.getText().toString()));
+            } catch (NumberFormatException e) {
+                customer.setTotal_due(0.0);
+            }
+
+            customerRef.add(customer).addOnSuccessListener(documentReference -> {
+                Toast.makeText(this, "Customer added", Toast.LENGTH_SHORT).show();
+                loadCustomers(); // Refresh the list
+            });
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.create().show();
+    }
+
+    private void showAddProductDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_edit_product, null);
+        builder.setView(dialogView);
+
+        final EditText nameEt = dialogView.findViewById(R.id.name_edit_text);
+        final EditText categoryEt = dialogView.findViewById(R.id.category_edit_text);
+        final EditText unitEt = dialogView.findViewById(R.id.unit_edit_text);
+        final EditText priceEt = dialogView.findViewById(R.id.price_edit_text);
+        final EditText stockEt = dialogView.findViewById(R.id.stock_edit_text);
+
+        builder.setTitle(R.string.add_new_product);
+
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            String name = nameEt.getText().toString().trim();
+            if (TextUtils.isEmpty(name)) {
+                Toast.makeText(this, "Product name is required", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ProductModel product = new ProductModel();
+            product.setName(name);
+            product.setCategory(categoryEt.getText().toString());
+            product.setUnit(unitEt.getText().toString());
+            product.setPrice(Double.parseDouble(priceEt.getText().toString().isEmpty() ? "0" : priceEt.getText().toString()));
+            product.setStock(Long.parseLong(stockEt.getText().toString().isEmpty() ? "0" : stockEt.getText().toString()));
+            product.setAdded_by(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+            productRef.add(product).addOnSuccessListener(documentReference -> {
+                Toast.makeText(this, "Product added", Toast.LENGTH_SHORT).show();
+                loadProducts(); // Refresh the list
+            });
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.create().show();
     }
 }
