@@ -103,6 +103,9 @@ public class SalesActivity extends AppCompatActivity {
         customerAutocomplete.setAdapter(customerAdapter);
 
         productAutocomplete = findViewById(R.id.product_autocomplete);
+        productList = new ArrayList<>();
+        productAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, productList);
+        productAutocomplete.setAdapter(productAdapter);
         quantityEditText = findViewById(R.id.quantity_edit_text);
 
         salesBillRecyclerView = findViewById(R.id.sales_bill_recyclerview);
