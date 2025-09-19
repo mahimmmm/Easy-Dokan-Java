@@ -69,7 +69,9 @@ public class CustomerActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new CustomerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot) {
-                Toast.makeText(CustomerActivity.this, "Ledger view coming soon!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CustomerActivity.this, CustomerDetailActivity.class);
+                intent.putExtra(CustomerDetailActivity.EXTRA_CUSTOMER_ID, documentSnapshot.getId());
+                startActivity(intent);
             }
             @Override
             public void onEditClick(DocumentSnapshot documentSnapshot) {

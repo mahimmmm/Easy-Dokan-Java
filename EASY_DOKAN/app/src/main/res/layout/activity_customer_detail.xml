@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.CustomerDetailActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_customer_detail"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="Customer Details"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Customer Info Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <TextView android:id="@+id/detail_customer_name" android:layout_width="wrap_content" android:layout_height="wrap_content" tools:text="Sajib" android:textAppearance="?attr/textAppearanceHeadline5"/>
+                    <TextView android:id="@+id/detail_customer_phone" android:layout_width="wrap_content" android:layout_height="wrap_content" tools:text="+8801XXXXXX" android:layout_marginTop="8dp"/>
+                    <TextView android:id="@+id/detail_customer_address" android:layout_width="wrap_content" android:layout_height="wrap_content" tools:text="Lakshmipur, Dhaka" android:layout_marginTop="4dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Summary Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="16dp"
+                app:strokeColor="?attr/colorPrimary"
+                app:strokeWidth="1dp"
+                style="@style/Widget.Material3.CardView.Outlined">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+                    <TextView android:id="@+id/detail_total_due" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" tools:text="Total Due\n৳500" android:textAppearance="?attr/textAppearanceBody1"/>
+                    <View android:layout_width="1dp" android:layout_height="match_parent" android:background="?attr/colorOutline"/>
+                    <TextView android:id="@+id/detail_total_business" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:gravity="center" tools:text="Total Business\n৳2500" android:textAppearance="?attr/textAppearanceBody1"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Ledger/Transaction History -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Transaction History (Ledger)"
+                android:layout_marginTop="24dp"
+                android:textAppearance="?attr/textAppearanceTitleMedium"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sales_history_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:listitem="@layout/sales_history_item"
+                tools:itemCount="5"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
