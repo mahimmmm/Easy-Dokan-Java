@@ -32,6 +32,7 @@
 
         <!-- Placeholder Activities -->
         <activity android:name=".activities.CustomerActivity" />
+        <activity android:name=".activities.CustomerDetailActivity" />
         <activity android:name=".activities.ProductActivity" />
         <activity android:name=".activities.SalesActivity" />
        <activity android:name=".activities.ReceiveFromDsrActivity" />
