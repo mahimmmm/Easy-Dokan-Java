@@ -129,14 +129,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         binding.itemSupport.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_SENDTO);
-            intent.setData(Uri.parse("mailto:support@easydokan.com"));
-            intent.putExtra(Intent.EXTRA_SUBJECT, "Support Request for Easy Dokan");
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, "No email app found.", Toast.LENGTH_SHORT).show();
-            }
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/mahimtraderr"));
+            startActivity(intent);
         });
 
         binding.itemDevInfo.setOnClickListener(v -> {

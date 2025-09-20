@@ -70,8 +70,10 @@ public class CustomerAdapter extends FirestoreRecyclerAdapter<CustomerModel, Cus
         });
 
         holder.clickableLayout.setOnClickListener(v -> {
-            // Temporarily disabling navigation to debug RecyclerView inconsistency
-            Toast.makeText(v.getContext(), "Clicked on " + model.getName(), Toast.LENGTH_SHORT).show();
+            int position = holder.getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION && listener != null) {
+                listener.onItemClick(getSnapshots().getSnapshot(position));
+            }
         });
     }
 

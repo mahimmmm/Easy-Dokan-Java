@@ -23,6 +23,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -71,6 +73,10 @@ public class ProductActivity extends AppCompatActivity {
         adapter.startListening();
 
         adapter.setOnItemClickListener(new ProductAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot) {
+                showProductDetailDialog(documentSnapshot);
+            }
             @Override
             public void onEditClick(DocumentSnapshot documentSnapshot) {
                 showAddEditProductDialog(documentSnapshot);
@@ -191,5 +197,39 @@ public class ProductActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         if (adapter != null) adapter.stopListening();
+    }
+
+    private void showProductDetailDialog(DocumentSnapshot snapshot) {
+        if (snapshot == null || !snapshot.exists()) return;
+
+        ProductModel product = snapshot.toObject(ProductModel.class);
+        if (product == null) return;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_product_detail, null);
+        builder.setView(dialogView);
+
+        TextView name = dialogView.findViewById(R.id.detail_product_name);
+        TextView category = dialogView.findViewById(R.id.detail_product_category);
+        TextView unit = dialogView.findViewById(R.id.detail_product_unit);
+        TextView price = dialogView.findViewById(R.id.detail_product_price);
+        TextView stock = dialogView.findViewById(R.id.detail_product_stock);
+        TextView lastUpdated = dialogView.findViewById(R.id.detail_product_last_updated);
+
+        name.setText(product.getName());
+        category.setText("Category: " + product.getCategory());
+        unit.setText("Unit: " + product.getUnit());
+        price.setText("Price: ৳" + product.getPrice());
+        stock.setText("Stock: " + product.getStock());
+
+        if (product.getLast_updated() != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
+            lastUpdated.setText("Last Updated: " + sdf.format(product.getLast_updated()));
+        } else {
+            lastUpdated.setText("Last Updated: N/A");
+        }
+
+        builder.setPositiveButton("OK", null);
+        builder.create().show();
     }
 }

@@ -72,6 +72,13 @@ public class ProductAdapter extends FirestoreRecyclerAdapter<ProductModel, Produ
             productPrice = itemView.findViewById(R.id.product_price);
             stockStatusChip = itemView.findViewById(R.id.stock_status_chip);
             optionsMenu = itemView.findViewById(R.id.options_menu);
+
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    listener.onItemClick(getSnapshots().getSnapshot(position));
+                }
+            });
         }
     }
 
@@ -84,6 +91,7 @@ public class ProductAdapter extends FirestoreRecyclerAdapter<ProductModel, Produ
     }
 
     public interface OnItemClickListener {
+        void onItemClick(DocumentSnapshot documentSnapshot);
         void onEditClick(DocumentSnapshot documentSnapshot);
         void onDeleteClick(DocumentSnapshot documentSnapshot);
     }

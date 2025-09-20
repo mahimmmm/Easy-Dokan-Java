@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/detail_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Product Name"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView android:id="@+id/detail_product_category" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Category: Grocery"/>
+    <TextView android:id="@+id/detail_product_unit" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Unit: kg" android:layout_marginTop="8dp"/>
+    <TextView android:id="@+id/detail_product_price" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Price: ৳60" android:layout_marginTop="8dp"/>
+    <TextView android:id="@+id/detail_product_stock" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Stock: 50" android:layout_marginTop="8dp"/>
+    <TextView android:id="@+id/detail_product_last_updated" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Last Updated: 20 Sep 2025" android:layout_marginTop="8dp"/>
+
+</LinearLayout>
