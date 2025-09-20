@@ -69,12 +69,8 @@ public class CustomerAdapter extends FirestoreRecyclerAdapter<CustomerModel, Cus
         });
 
         holder.clickableLayout.setOnClickListener(v -> {
-            if(listener != null) {
-                int currentPosition = holder.getAdapterPosition();
-                if (currentPosition != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(getSnapshots().getSnapshot(currentPosition));
-                }
-            }
+            // Temporarily disabling navigation to debug RecyclerView inconsistency
+            Toast.makeText(v.getContext(), "Clicked on " + model.getName(), Toast.LENGTH_SHORT).show();
         });
     }
 
