@@ -40,4 +40,5 @@
 
     </application>
 
+    <!-- Trivial change to force rebuild -->
 </manifest>
