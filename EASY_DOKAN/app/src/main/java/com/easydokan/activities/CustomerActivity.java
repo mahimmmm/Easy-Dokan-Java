@@ -1,5 +1,6 @@
 package com.easydokan.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -69,8 +70,9 @@ public class CustomerActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new CustomerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot) {
-                // TODO: Navigate to Ledger Activity
-                Toast.makeText(CustomerActivity.this, "Ledger view coming soon!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CustomerActivity.this, CustomerDetailActivity.class);
+                intent.putExtra(CustomerDetailActivity.EXTRA_CUSTOMER_ID, documentSnapshot.getId());
+                startActivity(intent);
             }
             @Override
             public void onEditClick(DocumentSnapshot documentSnapshot) {
@@ -99,8 +101,7 @@ public class CustomerActivity extends AppCompatActivity {
         final EditText nameEt = dialogView.findViewById(R.id.name_edit_text);
         final EditText phoneEt = dialogView.findViewById(R.id.phone_edit_text);
         final EditText addressEt = dialogView.findViewById(R.id.address_edit_text);
-        final EditText balanceEt = dialogView.findViewById(R.id.opening_balance_edit_text);
-        final EditText notesEt = dialogView.findViewById(R.id.notes_edit_text);
+        final EditText totalDueEt = dialogView.findViewById(R.id.total_due_edit_text);
 
         if (snapshot != null) {
             builder.setTitle(R.string.edit_customer);
@@ -108,8 +109,7 @@ public class CustomerActivity extends AppCompatActivity {
             nameEt.setText(customer.getName());
             phoneEt.setText(customer.getPhone());
             addressEt.setText(customer.getAddress());
-            balanceEt.setText(String.valueOf(customer.getOpeningBalance()));
-            notesEt.setText(customer.getNotes());
+            totalDueEt.setText(String.valueOf(customer.getTotal_due()));
         } else {
             builder.setTitle(R.string.add_new_customer);
         }
@@ -126,17 +126,24 @@ public class CustomerActivity extends AppCompatActivity {
             customer.setName(name);
             customer.setPhone(phone);
             customer.setAddress(addressEt.getText().toString().trim());
-            customer.setNotes(notesEt.getText().toString().trim());
             try {
-                customer.setOpeningBalance(Double.parseDouble(balanceEt.getText().toString()));
+                customer.setTotal_due(Double.parseDouble(totalDueEt.getText().toString()));
             } catch (NumberFormatException e) {
-                customer.setOpeningBalance(0.0);
+                customer.setTotal_due(0.0);
             }
 
             if (snapshot != null) {
-                customerRef.document(snapshot.getId()).set(customer);
+                // When editing, we only update these fields. total_due is updated via sales.
+                // We preserve the created_at timestamp.
+                customerRef.document(snapshot.getId()).update(
+                    "name", customer.getName(),
+                    "phone", customer.getPhone(),
+                    "address", customer.getAddress(),
+                    "updated_at", com.google.firebase.firestore.FieldValue.serverTimestamp()
+                );
                 Toast.makeText(this, "Customer updated", Toast.LENGTH_SHORT).show();
             } else {
+                // created_at and updated_at will be set by @ServerTimestamp
                 customerRef.add(customer);
                 Toast.makeText(this, "Customer added", Toast.LENGTH_SHORT).show();
             }
@@ -172,8 +179,6 @@ public class CustomerActivity extends AppCompatActivity {
         if (text.isEmpty()) {
             query = customerRef.orderBy("name", Query.Direction.ASCENDING);
         } else {
-            // This search is case-sensitive and only matches prefixes.
-            // For a more robust search, Cloud Functions or a third-party service like Algolia is needed.
             query = customerRef.orderBy("name").startAt(text).endAt(text + "\uf8ff");
         }
         FirestoreRecyclerOptions<CustomerModel> options = new FirestoreRecyclerOptions.Builder<CustomerModel>()

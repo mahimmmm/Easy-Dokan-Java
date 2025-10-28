@@ -23,8 +23,8 @@ public class SplashActivity extends AppCompatActivity {
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
             if (currentUser != null) {
-                // User is already logged in, go to Dashboard
-                startActivity(new Intent(SplashActivity.this, DashboardActivity.class));
+                // User is already logged in, go to the new Home Page
+                startActivity(new Intent(SplashActivity.this, HomePageActivity.class));
             } else {
                 // User is not logged in, go to Login
                 startActivity(new Intent(SplashActivity.this, LoginActivity.class));

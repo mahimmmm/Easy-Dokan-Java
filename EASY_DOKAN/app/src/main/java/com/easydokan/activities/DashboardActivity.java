@@ -4,20 +4,30 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.appcompat.widget.Toolbar;
 import com.easydokan.R;
-import com.easydokan.adapters.DashboardAdapter;
 import com.easydokan.databinding.ActivityDashboardBinding;
-import com.easydokan.models.DashboardNavItem;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import java.text.NumberFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class DashboardActivity extends AppCompatActivity {
 
     private ActivityDashboardBinding binding;
-    private DashboardAdapter adapter;
+    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
+    private CollectionReference productsRef;
+    private CollectionReference salesRef;
+    private CollectionReference customersRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,37 +35,103 @@ public class DashboardActivity extends AppCompatActivity {
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setSupportActionBar(binding.toolbar);
-        setupNavigationRecyclerView();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        }
+
+        initFirebase();
+        fetchDashboardData();
     }
 
-    private void setupNavigationRecyclerView() {
-        binding.navRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    private void initFirebase() {
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            productsRef = db.collection("users").document(userId).collection("products");
+            salesRef = db.collection("users").document(userId).collection("sales");
+            customersRef = db.collection("users").document(userId).collection("customers");
+        } else {
+            Toast.makeText(this, "User not logged in.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
 
-        List<DashboardNavItem> navItems = new ArrayList<>();
-        navItems.add(new DashboardNavItem(getString(R.string.customers), R.drawable.ic_customer));
-        navItems.add(new DashboardNavItem(getString(R.string.products), R.drawable.ic_products));
-        navItems.add(new DashboardNavItem(getString(R.string.sales), R.drawable.ic_sales));
-        navItems.add(new DashboardNavItem(getString(R.string.expenses), R.drawable.ic_expense));
-        navItems.add(new DashboardNavItem(getString(R.string.reports), R.drawable.ic_reports));
+    private void fetchDashboardData() {
+        if (mAuth.getCurrentUser() == null) return;
+        fetchTotalProducts();
+        fetchTotalSales();
+        fetchTodaysSales();
+        fetchPendingDues();
+        fetchLowStockAlerts();
+    }
 
-        adapter = new DashboardAdapter(navItems);
-        binding.navRecyclerView.setAdapter(adapter);
-
-        adapter.setOnItemClickListener(item -> {
-            String title = item.getTitle();
-            if (title.equals(getString(R.string.customers))) {
-                startActivity(new Intent(this, CustomerActivity.class));
-            } else if (title.equals(getString(R.string.products))) {
-                startActivity(new Intent(this, ProductActivity.class));
-            } else if (title.equals(getString(R.string.sales))) {
-                startActivity(new Intent(this, SalesActivity.class));
-            } else if (title.equals(getString(R.string.expenses))) {
-                startActivity(new Intent(this, ExpenseActivity.class));
-            } else if (title.equals(getString(R.string.reports))) {
-                startActivity(new Intent(this, ReportActivity.class));
-            }
+    private void fetchTotalProducts() {
+        if (productsRef == null) return;
+        productsRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            binding.totalProductsText.setText(getString(R.string.dashboard_total_products, queryDocumentSnapshots.size()));
         });
+    }
+
+    private void fetchTotalSales() {
+        if (salesRef == null) return;
+        salesRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            double totalSales = 0;
+            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                if (document.contains("total_amount")) {
+                    totalSales += document.getDouble("total_amount");
+                }
+            }
+            binding.totalSalesText.setText(getString(R.string.dashboard_total_sales, formatCurrency(totalSales)));
+        });
+    }
+
+    private void fetchTodaysSales() {
+        if (salesRef == null) return;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        Date startOfDay = calendar.getTime();
+        salesRef.whereGreaterThanOrEqualTo("created_at", startOfDay).get().addOnSuccessListener(queryDocumentSnapshots -> {
+            double todaysSales = 0;
+            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                if (document.contains("total_amount")) {
+                    todaysSales += document.getDouble("total_amount");
+                }
+            }
+            binding.todaysSalesText.setText(getString(R.string.dashboard_todays_sales, formatCurrency(todaysSales)));
+        });
+    }
+
+    private void fetchPendingDues() {
+        if (customersRef == null) return;
+        customersRef.whereGreaterThan("total_due", 0).get().addOnSuccessListener(queryDocumentSnapshots -> {
+            double totalDues = 0;
+            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                if (document.contains("total_due")) {
+                    totalDues += document.getDouble("total_due");
+                }
+            }
+            binding.pendingDuesText.setText(getString(R.string.dashboard_pending_dues, formatCurrency(totalDues)));
+        });
+    }
+
+    private void fetchLowStockAlerts() {
+        if (productsRef == null) return;
+        productsRef.whereLessThanOrEqualTo("stock", 10).get().addOnSuccessListener(queryDocumentSnapshots -> {
+            binding.lowStockAlertsText.setText(getString(R.string.dashboard_low_stock_alerts, queryDocumentSnapshots.size()));
+        });
+    }
+
+    private String formatCurrency(double amount) {
+        try {
+            return NumberFormat.getCurrencyInstance(new Locale("bn", "BD")).format(amount);
+        } catch (Exception e) {
+            return NumberFormat.getCurrencyInstance().format(amount);
+        }
     }
 
     @Override

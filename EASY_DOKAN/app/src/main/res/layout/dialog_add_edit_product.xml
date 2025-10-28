@@ -18,23 +18,6 @@
             android:textStyle="bold"
             android:layout_marginBottom="20dp"/>
 
-        <ImageView
-            android:id="@+id/product_image_view"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_products"
-            android:scaleType="centerCrop"/>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/select_image_button"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Select Image"
-            android:layout_marginTop="8dp"/>
-
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,9 +33,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/product_code">
+            android:hint="@string/category_hint">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/code_edit_text"
+                android:id="@+id/category_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -61,9 +44,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/category_hint">
+            android:hint="Unit (e.g., kg, pcs, litre)">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/category_edit_text"
+                android:id="@+id/unit_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -77,13 +60,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/price_hint">
+                android:hint="Selling Price*">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/price_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -97,19 +81,6 @@
                     android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/description">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/description_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:minLines="3"/>
-        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 </ScrollView>

@@ -28,9 +28,11 @@
         <activity android:name=".activities.DashboardActivity" />
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.HomePageActivity" />
 
         <!-- Placeholder Activities -->
         <activity android:name=".activities.CustomerActivity" />
+        <activity android:name=".activities.CustomerDetailActivity" />
         <activity android:name=".activities.ProductActivity" />
         <activity android:name=".activities.SalesActivity" />
        <activity android:name=".activities.ReceiveFromDsrActivity" />
@@ -38,4 +40,5 @@
 
     </application>
 
+    <!-- Trivial change to force rebuild -->
 </manifest>

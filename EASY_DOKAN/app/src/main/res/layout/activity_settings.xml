@@ -26,11 +26,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:paddingBottom="16dp">
 
             <!-- Profile Section -->
-            <TextView style="@style/SettingsSectionHeader" android:text="@string/settings_section_profile"/>
-            <com.google.android.material.card.MaterialCardView style="@style/SettingsCard">
+            <com.google.android.material.card.MaterialCardView style="@style/SettingsProfileCard">
                 <LinearLayout style="@style/SettingsCardContent">
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/profile_image"
@@ -38,8 +37,10 @@
                         android:layout_height="60dp"
                         android:src="@drawable/ic_person_blue"/>
                     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="16dp">
-                        <TextView android:id="@+id/profile_name" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="User Name" android:textStyle="bold" android:textSize="18sp"/>
-                        <TextView android:id="@+id/profile_email" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="user@example.com"/>
+                        <TextView android:id="@+id/store_name_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Store Name" android:textStyle="bold" android:textSize="18sp"/>
+                        <TextView android:id="@+id/owner_name_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Owner Name"/>
+                        <TextView android:id="@+id/profile_email_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="user@example.com"/>
+                        <TextView android:id="@+id/profile_phone_text" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="+880123456789"/>
                     </LinearLayout>
                     <ImageButton android:id="@+id/edit_profile_button" style="@style/SettingsEditButton" android:src="@drawable/ic_edit" app:tint="?attr/colorPrimary"/>
                 </LinearLayout>

@@ -59,26 +59,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/opening_balance">
+            android:hint="Initial Due Amount">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/opening_balance_edit_text"
+                android:id="@+id/total_due_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/notes">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/notes_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:inputType="textMultiLine"
-                android:minLines="2" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
